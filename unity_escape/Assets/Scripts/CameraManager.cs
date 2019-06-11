@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
+using DG.Tweening;
 
 /// <summary>
 /// カメラマネージャー
@@ -20,9 +21,11 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (mainCamera_)
+        if (mainCamera_ != null)
         {
             originalPosition_ = mainCamera_.transform.position;
+
+            mainCamera_.transform.DOMoveZ(-30.0f, 5.0f);
         }
     }
 
@@ -31,13 +34,16 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        RefreshCameraPos();
 
-        if (tokenSource_ != null)
-        {
-            var cancelToken = tokenSource_.Token;
-            Task.Run(() => OnAsyncTest(cancelToken));
-        }
+
+        // @memo. 以下、テスト
+        //RefreshCameraPos();
+
+        //if (tokenSource_ != null)
+        //{
+        //    var cancelToken = tokenSource_.Token;
+        //    Task.Run(() => OnAsyncTest(cancelToken));
+        //}
     }
 
     private void OnEnable()
