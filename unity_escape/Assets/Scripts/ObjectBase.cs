@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class ObjectBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    virtual protected void Start()
     {
-        
+        Debug.Log("------ObjectBase:Start()");
     }
 
-    // Update is called once per frame
-    void Update()
+    virtual protected void Update()
     {
-        
+        Debug.Log("------ObjectBase:Update()");
     }
 }

@@ -9,23 +9,23 @@ using DG.Tweening;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField]
-    public Camera mainCamera_;
+    public Camera MainCamera;
 
-    private Vector3 originalPosition_;
-    private float velocityZ_ = 0.0f;
+    private Vector3 originalPosition;
+    private float velocityZ = 0.0f;
 
-    private CancellationTokenSource tokenSource_;
+    private CancellationTokenSource tokenSource;
 
     /// <summary>
     /// 
     /// </summary>
     void Start()
     {
-        if (mainCamera_ != null)
+        if (MainCamera != null)
         {
-            originalPosition_ = mainCamera_.transform.position;
+            originalPosition = MainCamera.transform.position;
 
-            mainCamera_.transform.DOMoveZ(-30.0f, 5.0f);
+            //mainCamera_.transform.DOMoveZ(-30.0f, 5.0f);
         }
     }
 
@@ -48,26 +48,26 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (tokenSource_ == null)
+        if (tokenSource == null)
         {
-            tokenSource_ = new CancellationTokenSource();
+            tokenSource = new CancellationTokenSource();
         }
     }
 
     private void OnDisable()
     {
-        if (tokenSource_ != null)
+        if (tokenSource != null)
         {
-            tokenSource_.Cancel();
+            tokenSource.Cancel();
             Debug.Log("OnDisable():タスク破棄");
         }
     }
 
     private void OnDestroy()
     {
-        if (tokenSource_ != null)
+        if (tokenSource != null)
         {
-            tokenSource_.Cancel();
+            tokenSource.Cancel();
             Debug.Log("OnDestroy():タスク破棄");
         }
     }
@@ -91,10 +91,10 @@ public class CameraManager : MonoBehaviour
                 return;
             }
 
-            velocityZ_ -= 0.0005f;
-            if (velocityZ_ < -0.5f)
+            velocityZ -= 0.0005f;
+            if (velocityZ < -0.5f)
             {
-                velocityZ_ = -0.5f;
+                velocityZ = -0.5f;
             }
             Debug.Log("スレッドナンバー:" + Thread.CurrentThread.ManagedThreadId);
         });
@@ -102,26 +102,26 @@ public class CameraManager : MonoBehaviour
 
     private void RefreshCameraPos()
     {
-        if (mainCamera_ == null)
+        if (MainCamera == null)
         {
             return;
         }
 
-        var position = mainCamera_.transform.position;
-        position.z += velocityZ_;
+        var position = MainCamera.transform.position;
+        position.z += velocityZ;
         if (position.z < -30.0f)
         {
-            velocityZ_ = 0.0f;
-            position.z = originalPosition_.z;
+            velocityZ = 0.0f;
+            position.z = originalPosition.z;
         }
-        mainCamera_.transform.position = position;
+        MainCamera.transform.position = position;
     }
 
     private void SetPoasition(Vector3 position)
     {
-        if (mainCamera_ != null)
+        if (MainCamera != null)
         {
-            mainCamera_.transform.position = position;
+            MainCamera.transform.position = position;
         }
     }
 
@@ -132,17 +132,17 @@ public class CameraManager : MonoBehaviour
         //Quaternion q = Quaternion.AngleAxis(angle, axis); // 軸axisの周りにangle回転させるクォータニオン
 
 
-        if (mainCamera_ != null)
+        if (MainCamera != null)
         {
-            mainCamera_.transform.rotation = quaternion * mainCamera_.transform.rotation;
+            MainCamera.transform.rotation = quaternion * MainCamera.transform.rotation;
         }
     }
 
     private void SetTargetTransform(Transform targetTrans)
     {
-        if (mainCamera_ != null)
+        if (MainCamera != null)
         {
-            mainCamera_.transform.LookAt(targetTrans);
+            MainCamera.transform.LookAt(targetTrans);
         }
     }
 }

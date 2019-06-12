@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WallBlock : BlockBase
 {
-    void Start()
+    new void Start()
     {
 
     }
 
-    void Update()
+    new void Update()
     {
 
     }
