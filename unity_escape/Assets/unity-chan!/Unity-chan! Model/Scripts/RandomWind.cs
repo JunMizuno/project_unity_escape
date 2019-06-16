@@ -37,6 +37,9 @@ namespace UnityChan
 
 		void OnGUI ()
 		{
+            // @todo. ここでデバッグメニューを生成
+            return;
+
 			Rect rect1 = new Rect (10, Screen.height - 40, 400, 30);
 			isWindActive = GUI.Toggle (rect1, isWindActive, "Random Wind");
 		}

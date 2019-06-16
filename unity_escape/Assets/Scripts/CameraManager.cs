@@ -17,6 +17,7 @@ public class CameraManager : MonoBehaviour
     public Camera MainCamera;
 
     private Vector3 originalPosition;
+    private float velocityY = 0.0f;
     private float velocityZ = 0.0f;
 
     private CancellationTokenSource tokenSource;
@@ -46,18 +47,19 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        // @memo. テスト
-        TouchManager.OnTouchAction();
+
+
+
 
 
         // @memo. 以下、テスト
-        //RefreshCameraPos();
+        RefreshCameraPos();
 
-        //if (tokenSource_ != null)
-        //{
-        //    var cancelToken = tokenSource_.Token;
-        //    Task.Run(() => OnAsyncTest(cancelToken));
-        //}
+        if (tokenSource != null)
+        {
+            var cancelToken = tokenSource.Token;
+            Task.Run(() => OnAsyncTest(cancelToken));
+        }
     }
 
     private void OnEnable()
@@ -105,7 +107,13 @@ public class CameraManager : MonoBehaviour
                 return;
             }
 
-            velocityZ -= 0.0005f;
+            velocityY += 0.00001f;
+            if (velocityY > 0.05f)
+            {
+                velocityY = 0.05f;
+            }
+
+            velocityZ -= 0.00005f;
             if (velocityZ < -0.5f)
             {
                 velocityZ = -0.5f;
@@ -122,10 +130,13 @@ public class CameraManager : MonoBehaviour
         }
 
         var position = MainCamera.transform.position;
+        position.y += velocityY;
         position.z += velocityZ;
-        if (position.z < -30.0f)
+        if (position.z < -10.0f)
         {
+            velocityY = 0.0f;
             velocityZ = 0.0f;
+            position.y = originalPosition.y;
             position.z = originalPosition.z;
         }
         MainCamera.transform.position = position;
