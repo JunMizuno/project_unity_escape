@@ -1,20 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UtilitySystems : MonoBehaviour
+public static class UtilitySystems
 {
-    public static void DeviceCheck()
+    public static void OnTest()
     {
-        if (Application.isEditor)
-        {
 
-        }
-        else
-        {
-
-        }
     }
+
+
+
 
 
 }

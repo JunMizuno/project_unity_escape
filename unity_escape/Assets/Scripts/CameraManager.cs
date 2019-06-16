@@ -8,6 +8,11 @@ using DG.Tweening;
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
+    private CameraManager instance;
+    public CameraManager Instance {
+        get { return this.instance; }
+    }
+
     [SerializeField]
     public Camera MainCamera;
 
@@ -15,6 +20,13 @@ public class CameraManager : MonoBehaviour
     private float velocityZ = 0.0f;
 
     private CancellationTokenSource tokenSource;
+
+    private void Awake()
+    {
+        if (instance == null) {
+            instance = this;
+        }
+    }
 
     /// <summary>
     /// 
@@ -34,6 +46,8 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // @memo. テスト
+        TouchManager.OnTouchAction();
 
 
         // @memo. 以下、テスト
@@ -144,5 +158,10 @@ public class CameraManager : MonoBehaviour
         {
             MainCamera.transform.LookAt(targetTrans);
         }
+    }
+
+    public void SetLookTarget(Transform targetTrans)
+    {
+        SetTargetTransform(targetTrans);
     }
 }
