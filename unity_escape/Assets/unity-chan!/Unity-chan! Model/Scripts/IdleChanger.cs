@@ -6,6 +6,7 @@ namespace UnityChan
 //
 // ↑↓キーでループアニメーションを切り替えるスクリプト（ランダム切り替え付き）Ver.3
 // 2014/04/03 N.Kobayashi
+// 2015/03/11 Revised for Unity5 (only)
 //
 
 // Require these components when using this script
@@ -19,10 +20,11 @@ namespace UnityChan
 		private Animator anim;						// Animatorへの参照
 		private AnimatorStateInfo currentState;		// 現在のステート状態を保存する参照
 		private AnimatorStateInfo previousState;	// ひとつ前のステート状態を保存する参照
-		public bool _random = true;				// ランダム判定スタートスイッチ
+		public bool _random = false;				// ランダム判定スタートスイッチ
 		public float _threshold = 0.5f;				// ランダム判定の閾値
-		public float _interval = 2f;				// ランダム判定のインターバル
-		//private float _seed = 0.0f;					// ランダム判定用シード
+		public float _interval = 10f;               // ランダム判定のインターバル
+      //private float _seed = 0.0f;					// ランダム判定用シード
+        public bool isGUI = true;
 	
 
 
@@ -56,7 +58,7 @@ namespace UnityChan
 			if (anim.GetBool ("Next")) {
 				// 現在のステートをチェックし、ステート名が違っていたらブーリアンをfalseに戻す
 				currentState = anim.GetCurrentAnimatorStateInfo (0);
-				if (previousState.nameHash != currentState.nameHash) {
+				if (previousState.fullPathHash != currentState.fullPathHash) {
 					anim.SetBool ("Next", false);
 					previousState = currentState;				
 				}
@@ -66,7 +68,7 @@ namespace UnityChan
 			if (anim.GetBool ("Back")) {
 				// 現在のステートをチェックし、ステート名が違っていたらブーリアンをfalseに戻す
 				currentState = anim.GetCurrentAnimatorStateInfo (0);
-				if (previousState.nameHash != currentState.nameHash) {
+				if (previousState.fullPathHash != currentState.fullPathHash) {
 					anim.SetBool ("Back", false);
 					previousState = currentState;
 				}
@@ -75,14 +77,14 @@ namespace UnityChan
 
 		void OnGUI ()
 		{
-            // @memo. ここでデバッグボタン生成
-            return;
-
-			GUI.Box (new Rect (Screen.width - 110, 10, 100, 90), "Change Motion");
-			if (GUI.Button (new Rect (Screen.width - 100, 40, 80, 20), "Next"))
-				anim.SetBool ("Next", true);
-			if (GUI.Button (new Rect (Screen.width - 100, 70, 80, 20), "Back"))
-				anim.SetBool ("Back", true);
+            if (isGUI)
+            {
+                GUI.Box(new Rect(Screen.width - 110, 10, 100, 90), "Change Motion");
+                if (GUI.Button(new Rect(Screen.width - 100, 40, 80, 20), "Next"))
+                    anim.SetBool("Next", true);
+                if (GUI.Button(new Rect(Screen.width - 100, 70, 80, 20), "Back"))
+                    anim.SetBool("Back", true);
+            }
 		}
 
 
@@ -93,7 +95,6 @@ namespace UnityChan
 			while (true) {
 				//ランダム判定スイッチオンの場合
 				if (_random) {
-                    /*
 					// ランダムシードを取り出し、その大きさによってフラグ設定をする
 					float _seed = Random.Range (0.0f, 1.0f);
 					if (_seed < _threshold) {
@@ -101,11 +102,9 @@ namespace UnityChan
 					} else if (_seed >= _threshold) {
 						anim.SetBool ("Next", true);
 					}
-                    */
-                    anim.SetBool("Next", true);
-                }
-                // 次の判定までインターバルを置く
-                yield return new WaitForSeconds (_interval);
+				}
+				// 次の判定までインターバルを置く
+				yield return new WaitForSeconds (_interval);
 			}
 
 		}
