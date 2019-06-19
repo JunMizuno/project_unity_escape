@@ -1,26 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TestButton : MonoBehaviour
 {
-    public void OnClickToOpenOdoroboWithParam()
-    {
-        Application.OpenURL("ponos-odorobo://ponos/battlecats4");
-    }
+    [SerializeField]
+    public Text InputText;
 
-    public void OnClickToOpenOdorobo()
+    public void OnClickDecideButton()
     {
-        Application.OpenURL("ponos-odorobo://");
-    }
+        if (InputText == null)
+        {
+            return;
+        }
 
-    public void OnClickToOpenBattleCatsWithParam()
-    {
-        Application.OpenURL("ponos-battlecats4://ponos/odorobo1");
-    }
-
-    public void OnClickToOpenBattleCats()
-    {
-        Application.OpenURL("ponos-battlecats4://");
+        Application.OpenURL(InputText.text);
     }
 }
