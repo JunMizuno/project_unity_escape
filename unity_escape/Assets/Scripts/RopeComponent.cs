@@ -24,7 +24,16 @@ public class RopeComponent : MonoBehaviour
         int idx = 0;
         foreach (GameObject v in vertices)
         {
-            line.SetPosition(idx, v.transform.position);
+            var trans = v.transform;
+            if (trans.position.y >= 2.5f)
+            {
+                trans.position = new Vector3(trans.position.x, 2.5f, trans.position.z);
+            }
+            else if (trans.position.y <= 0.5f)
+            {
+                trans.position = new Vector3(trans.position.x, 0.5f, trans.position.z);
+            }
+            line.SetPosition(idx, trans.position);
             idx++;
         }
     }

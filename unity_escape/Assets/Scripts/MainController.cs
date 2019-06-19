@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainController : MonoBehaviour
 {
     [SerializeField] Animator playerAnimator;
+    [SerializeField] PlayerComponent player;
 
     // ジャンプ中か判定するフラグ
     bool isJumping;
@@ -34,6 +35,9 @@ public class MainController : MonoBehaviour
 
         // JumpTrigger を トリガーします
         playerAnimator.SetTrigger("JumpTrigger");
+
+        // PlayerComponent側のジャンプ処理を呼び出します。
+        player.Jump();
 
         // 0.5秒待ちます
         yield return new WaitForSeconds(0.5f);
