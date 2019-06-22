@@ -5,13 +5,5 @@ using UnityEngine;
 
 public static class UtilitySystems
 {
-    public static void OnTest()
-    {
-
-    }
-
-
-
-
 
 }

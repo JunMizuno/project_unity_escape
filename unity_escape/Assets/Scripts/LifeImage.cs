@@ -19,7 +19,7 @@ public class LifeImage : MonoBehaviour
 
     private void OnEnable()
     {
-        ScaleUp(1.0f, 1.0f);
+
     }
 
     private void OnDisable()
@@ -27,7 +27,7 @@ public class LifeImage : MonoBehaviour
         
     }
 
-    private void ScaleUp(float scale, float duration)
+    public void ScaleUp(float scale, float duration)
     {
         var trans = this.transform;
         trans.DOScale(new Vector3(scale, scale, scale), duration)
@@ -38,9 +38,47 @@ public class LifeImage : MonoBehaviour
             });
     }
 
-    private void ScaleDown(float scale, float duration)
+    public void ScaleDown(float scale, float duration)
     {
         var trans = this.transform;
-        trans.DOScale(new Vector3(scale, scale, scale), duration);
+        trans.DOScale(new Vector3(scale, scale, scale), duration)
+            .SetRecyclable()
+            .OnComplete(() =>
+            {
+            });
+    }
+
+    public void ShowLifeImage()
+    {
+        var trans = this.transform;
+        trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        this.transform.localScale = trans.localScale;
+    }
+
+    public void HideLifeImage()
+    {
+        var trans = this.transform;
+        trans.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        this.transform.localScale = trans.localScale;
+    }
+
+    /// <summary>
+    /// @detail:スケールが1.0fであるならば「表示している」とします
+    /// </summary>
+    /// <returns></returns>
+    public bool IsShow()
+    {
+        var trans = this.transform;
+        if (trans.localScale.x >= 1.0f && trans.localScale.y >= 1.0f && trans.localScale.z >= 1.0f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public IEnumerator ScaleUpActionWithDelay(float delayCount)
+    {
+        yield return null;
     }
 }
