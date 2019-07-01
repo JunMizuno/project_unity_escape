@@ -7,6 +7,8 @@ public class LoginButton : ButtonBase
 {
     new public void OnTouchButtonAction()
     {
+        // @todo. ここをPlayFab対応させる
+
         int currentTimeStamp = DateTime.Now.ToTimeStamp();
         EmulateGameManager.Instance.LoginTimeStamp = currentTimeStamp;
         EmulateGameManager.Instance.IsLogin = true;

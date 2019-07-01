@@ -69,7 +69,7 @@ public class LifeImage : MonoBehaviour
     public bool IsShow()
     {
         var trans = this.transform;
-        if (trans.localScale.x >= 1.0f && trans.localScale.y >= 1.0f && trans.localScale.z >= 1.0f)
+        if (trans.localScale.x > 0.0f && trans.localScale.y > 0.0f && trans.localScale.z > 0.0f)
         {
             return true;
         }

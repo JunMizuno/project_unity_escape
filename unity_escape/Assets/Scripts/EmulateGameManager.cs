@@ -19,13 +19,21 @@ public class EmulateGameManager : MonoBehaviour
         set { loginTimeStamp = value; }
     }
 
+    private int useLifeTimeStamp;
+    public int UseLifeTimeStamp
+    {
+        get { return useLifeTimeStamp; }
+        set { useLifeTimeStamp = value; }
+    }
+
     private int currentLifeCount;
     public int CurrentLifeCount
     {
         get { return currentLifeCount; }
     }
 
-    private readonly int intervalTimeForRecoverLife = 300;
+    //private readonly int intervalTimeForRecoverLife = 300;
+    private readonly int intervalTimeForRecoverLife = 5;
     private readonly int maxLifeCount = 5;
 
     private bool isLogin;
@@ -42,16 +50,17 @@ public class EmulateGameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            PlayerPrefs.SetString(UtilitySettings.UNIQUE_IDENTIFIER_INDEX, SystemInfo.deviceUniqueIdentifier);
         }
 
-        isLogin = false;
+        //isLogin = false;
+        isLogin = true;
     }
 
     private void Start()
     {
         // @todo. ここでは前回ライフを使ったタイムスタンプを(追加設定して)取ること
         // @todo. ログインスタンプがゼロの場合はライフ5個分相当の数値を入れること
+        // @todo. 対応が終わったらこれをログイン時に行うように変更
         loginTimeStamp = PlayerPrefs.GetInt(UtilitySettings.RECORD_LOGIN_TIME_KEY, 0);
         if (loginTimeStamp == 0)
         {
@@ -69,7 +78,12 @@ public class EmulateGameManager : MonoBehaviour
 
     private void CalcCurrentLifeCount()
     {
-        currentLifeCount = (DateTime.Now.ToTimeStamp() - loginTimeStamp) / intervalTimeForRecoverLife;
+        // @todo. ここのロジックも変更が必要(loginTimeStampを前回使った時間に差し替える)
+        currentLifeCount = (DateTime.Now.ToTimeStamp() - useLifeTimeStamp) / intervalTimeForRecoverLife;
+        if (currentLifeCount > maxLifeCount)
+        {
+            currentLifeCount = maxLifeCount;
+        }
 
         for (int i = 0; i <= (maxLifeCount - 1); i++)
         {
