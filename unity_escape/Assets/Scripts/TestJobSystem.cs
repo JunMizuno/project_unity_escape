@@ -40,6 +40,17 @@ public class TestJobSystem : MonoBehaviour
     }
     private TestJobArray jobArray;
 
+    private struct TestJobList : IJob
+    {
+        public NativeQueue<int> queue;
+        public NativeList<int> list;
+
+        public void Execute()
+        {
+
+        }
+    }
+
     private void Awake()
     {
         // @memo. 後ろの引数指定、下に行くほどメモリコストが高くなる
@@ -116,6 +127,8 @@ public class TestJobSystem : MonoBehaviour
         {
             Debug.LogFormat("jobArrayのpositionsの中身 x:{0} y:{1} z:{2}", jobArray.positions[i].x, jobArray.positions[i].y, jobArray.positions[i].z);
         }
+
+        TestUseNativeList();
     }
 
     private void Update()
@@ -132,5 +145,10 @@ public class TestJobSystem : MonoBehaviour
         vector3Array.Dispose();
 
         jobArray.positions.Dispose();
+    }
+
+    private void TestUseNativeList()
+    {
+
     }
 }
