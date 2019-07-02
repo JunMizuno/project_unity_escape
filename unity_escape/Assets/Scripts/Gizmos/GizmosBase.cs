@@ -11,6 +11,9 @@ public class GizmosBase : MonoBehaviour
     [SerializeField]
     public Transform[] TestTrans;
 
+	[SerializeField]
+	public Texture Tex;
+
     [SerializeField]
     public bool IsShow;
 
@@ -67,6 +70,19 @@ public class GizmosBase : MonoBehaviour
 		}
 	}
 
+    private void DrawSphere()
+	{
+
+	}
+
+    private void DrawWireSphere()
+	{
+        // @memo. 第1に中心座標、第2に半径を指定
+		Gizmos.color = new Color(1.0f, 1.0f, 0.0f, 0.5f);
+		var pos = Vector3.zero;
+		Gizmos.DrawWireSphere(pos, 1.0f);
+	}
+
 	private void DrawLine()
 	{
 		// @memo. 第1に開始地点、第2に終了地点を指定
@@ -79,5 +95,24 @@ public class GizmosBase : MonoBehaviour
 		// @memo. 第1に開始地点、第2にベクトルを指定
 		Gizmos.color = new Color(0.0f, 0.0f, 1.0f, 1.0f);
 		Gizmos.DrawRay(Vector3.left, Vector3.back * 50.0f);
+	}
+
+    private void DrawFrustum()
+	{
+		// @memo. 第1に表示する座標、第2にカメラ視野、第3に到達点、第4にカメラの座標までの距離、第5に幅に対する高さの比率を指定
+		Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+        Gizmos.DrawFrustum(Vector3.zero, 60.0f, 1000.0f, 0.0f, 1.6f);
+	}
+
+	private void DrawTexture()
+	{
+        if (Tex == null)
+        {
+            return;
+        }
+
+        // @memo. テクスチャサイズを偶数で指定
+		Vector2 textureSize = new Vector2(2.0f, 2.0f);
+		Gizmos.DrawGUITexture(new Rect(-textureSize / 2.0f, textureSize), Tex);
 	}
 }
