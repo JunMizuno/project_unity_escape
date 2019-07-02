@@ -9,8 +9,6 @@ public class LineBase : MonoBehaviour
 
     private void Start()
     {
-        return;
-
         if (lineRenderer_ == null)
         {
             return;
