@@ -14,6 +14,9 @@ public class TestJobSystem : MonoBehaviour
     private NativeArray<float> floatArray;
     private NativeArray<Vector3> vector3Array;
 
+    NativeQueue<int> localQueue;
+    NativeList<int> localList;
+
     // Job
     private struct TestJob : IJob
     {
@@ -27,6 +30,7 @@ public class TestJobSystem : MonoBehaviour
     }
     private TestJob job;
 
+    // Job
     private struct TestJobArray : IJobParallelFor
     {
         public NativeArray<Vector3> positions;
@@ -40,14 +44,42 @@ public class TestJobSystem : MonoBehaviour
     }
     private TestJobArray jobArray;
 
-    private struct TestJobList : IJob
+    // Job
+    private struct TestAddJob : IJob
     {
         public NativeQueue<int> queue;
         public NativeList<int> list;
 
         public void Execute()
         {
+            while(queue.TryDequeue(out int item))
+            {
+                if (item % 2 == 0)
+                {
+                    list.Add(item);
+                }
+            }
+        }
+    }
 
+    private struct TestUpdateJob : IJobParallelFor
+    {
+        public NativeArray<int> array;
+
+        public void Execute(int index)
+        {
+            array[index] += 1;
+        }
+    }
+
+    private struct TestShowLogJob : IJobParallelFor
+    {
+        [ReadOnly]
+        public NativeList<int> list;
+
+        public void Execute(int index)
+        {
+            Debug.LogFormat("TestShowLogJobのlistの中身:{0}(index:{1})", list[index], index);
         }
     }
 
@@ -87,6 +119,32 @@ public class TestJobSystem : MonoBehaviour
 
     private void Start()
     {
+        //ShowNativeArraysLog();
+
+        //ExecuteTestJob();
+
+        TestUseAddJob();
+    }
+
+    private void Update()
+    {
+
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("TestJobSystem OnDestroy");
+
+        // 以下、解放処理
+        intArray.Dispose();
+        floatArray.Dispose();
+        vector3Array.Dispose();
+
+        jobArray.positions.Dispose();
+    }
+
+    private void ShowNativeArraysLog()
+    {
         foreach (var data in intArray)
         {
             Debug.Log("intArrayの中身:" + data);
@@ -101,7 +159,10 @@ public class TestJobSystem : MonoBehaviour
         {
             Debug.LogFormat("vector3Arrayの中身 x:{0} y:{1} z:{2}", data.x, data.y, data.z);
         }
+    }
 
+    private void ExecuteTestJob()
+    {
         // Job発行
         JobHandle handle = job.Schedule();
 
@@ -127,28 +188,34 @@ public class TestJobSystem : MonoBehaviour
         {
             Debug.LogFormat("jobArrayのpositionsの中身 x:{0} y:{1} z:{2}", jobArray.positions[i].x, jobArray.positions[i].y, jobArray.positions[i].z);
         }
-
-        TestUseNativeList();
     }
 
-    private void Update()
+    private void TestUseAddJob()
     {
-        
-    }
+        // そのジョブ内のみ有効を指定して生成
+        localQueue = new NativeQueue<int>(Allocator.TempJob);
+        localList = new NativeList<int>(8, Allocator.TempJob);
 
-    private void OnDestroy()
-    {
-        Debug.Log("TestJobSystem OnDestroy");
+        localQueue.Enqueue(2);
+        localQueue.Enqueue(3);
+        localQueue.Enqueue(4);
+        localQueue.Enqueue(5);
 
-        intArray.Dispose();
-        floatArray.Dispose();
-        vector3Array.Dispose();
+        // 2で割り切れる数のみ抽出
+        var handle = new TestAddJob { queue = localQueue, list = localList }.Schedule();
+        handle.Complete();
 
-        jobArray.positions.Dispose();
-    }
+        // それらに+1する
+        // AsDeferredJobArrayでNativeArrayにする
+        handle = new TestUpdateJob { array = localList.AsDeferredJobArray() }.Schedule(localList, 4, handle);
+        handle.Complete();
 
-    private void TestUseNativeList()
-    {
+        // デバッグ表示
+        handle = new TestShowLogJob { list = localList }.Schedule(localList, 8, handle);
+        handle.Complete();
 
+        // ジョブが終わったタイミングで解放(でないとリークの可能性)
+        localQueue.Dispose();
+        localList.Dispose();
     }
 }
