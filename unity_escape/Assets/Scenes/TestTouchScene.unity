@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 475419380}
-  TargetObject: {fileID: 0}
+  TargetObject: {fileID: 961746649}
 --- !u!4 &1073888961
 Transform:
   m_ObjectHideFlags: 0
