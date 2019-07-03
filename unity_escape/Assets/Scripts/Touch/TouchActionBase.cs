@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TouchActionBase :
+/// <summary>
+/// オブジェクトに対してのタッチ判定取得クラス
+/// ヒエラルキーにEventSystemの生成必須
+/// 対象のカメラ側にPhysicsRaycasterのアタッチ必須
+/// </summary>
+public abstract class TouchActionBase :
     MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
@@ -20,89 +25,89 @@ public class TouchActionBase :
     /// ドラッグ開始時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnBeginDrag(PointerEventData pointerEventData)
+    public virtual void OnBeginDrag(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnBeginDrag" + "</color>");
+
     }
 
     /// <summary>
     /// ドラッグ中
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnDrag(PointerEventData pointerEventData)
+    public virtual void OnDrag(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnDrag" + "</color>");
+
     }
 
     /// <summary>
     /// ドラッグ終了時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnEndDrag(PointerEventData pointerEventData)
+    public virtual void OnEndDrag(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnEndDrag" + "</color>");
+
     }
 
     /// <summary>
     /// 不明
     /// </summary>
     /// <param name="axisEventData"></param>
-    public void OnMove(AxisEventData axisEventData)
+    public virtual void OnMove(AxisEventData axisEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnMove" + "</color>");
+
     }
 
     /// <summary>
     /// グリック時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnPointerDown(PointerEventData pointerEventData)
+    public virtual void OnPointerDown(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnPointerDown" + "</color>");
+
     }
 
     /// <summary>
     /// クリック終了時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnPointerUp(PointerEventData pointerEventData)
+    public virtual void OnPointerUp(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnPointerUp" + "</color>");
+
     }
 
     /// <summary>
     /// クリック時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public virtual void OnPointerClick(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnPointerClick" + "</color>");
+
     }
 
     /// <summary>
     /// マウスポインタの当たりが発生した瞬間
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnPointerEnter(PointerEventData pointerEventData)
+    public virtual void OnPointerEnter(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnPointerEnter" + "</color>");
+
     }
 
     /// <summary>
     /// マウスポインタの当たりが外れた瞬間
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnPointerExit(PointerEventData pointerEventData)
+    public virtual void OnPointerExit(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnPointerExit" + "</color>");
+
     }
 
     /// <summary>
     /// マウススクロール時
     /// </summary>
     /// <param name="pointerEventData"></param>
-    public void OnScroll(PointerEventData pointerEventData)
+    public virtual void OnScroll(PointerEventData pointerEventData)
     {
-        Debug.Log("<color=yellow>" + "------OnScroll" + "</color>");
+
     }
 }
