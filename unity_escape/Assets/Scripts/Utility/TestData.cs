@@ -20,7 +20,8 @@ public class TestData : MonoBehaviour
 
     private void Start()
     {
-
+        //TestLerp();
+        TestSLerp();
     }
 
     private void Update()
@@ -131,5 +132,76 @@ public class TestData : MonoBehaviour
         int value = sampleIntStack.Pop();
 
         Debug.Log("<color=white>" + "sampleIntStackのPop後の要素数:" + sampleIntStack.Count + " Popの値:" + value + "</color>");
+    }
+
+    private void TestLerp()
+    {
+        /*
+        float floatValue1 = Mathf.Lerp(0.0f, 10.0f, 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(floatValue1)の中間点:" + floatValue1 + "</color>");
+
+        float floatValue2 = Mathf.Lerp(10.0f, 20.0f, 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(floatValue2)の中間点:" + floatValue2 + "</color>");
+
+        float floatValue3 = Mathf.Lerp(floatValue1, floatValue2, 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(floatValue3)の中間点:" + floatValue3 + "</color>");
+        */
+
+        Vector3 vectorValue1 = Vector3.Lerp(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(10.0f, 10.0f, 10.0f), 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(VectorValue1)の中間点:" + vectorValue1 + "</color>");
+
+        Vector3 vectorValue2 = Vector3.Lerp(new Vector3(5.0f, 5.0f, 5.0f), new Vector3(15.0f, 15.0f, 15.0f), 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(VectorValue2)の中間点:" + vectorValue2 + "</color>");
+
+        Vector3 vectorValue3 = Vector3.Lerp(vectorValue1, vectorValue2, 0.5f);
+        Debug.Log("<color=cyan>" + "Leap(VectorValue3)の中間点:" + vectorValue3 + "</color>");
+    }
+
+    private void TestSLerp()
+    {
+        /*
+        Vector3 vectorValue1 = Vector3.Slerp(new Vector3(-10.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 10.0f), 0.5f);
+        Debug.Log("<color=magenta>" + "Leap(VectorValue1)の中間点:" + vectorValue1 + "</color>");
+
+        Vector3 vectorValue2 = Vector3.Slerp(new Vector3(0.0f, 0.0f, 10.0f), new Vector3(10.0f, 0.0f, 0.0f), 0.5f);
+        Debug.Log("<color=magenta>" + "Leap(VectorValue2)の中間点:" + vectorValue2 + "</color>");
+
+        Vector3 vectorValue3 = Vector3.Slerp(vectorValue1, vectorValue2, 0.5f);
+        Debug.Log("<color=magenta>" + "Leap(VectorValue3)の中間点:" + vectorValue3 + "</color>");
+        */
+
+        int objectCount = 8;
+
+        Vector3 topPoint1 = new Vector3(-5.0f, 0.0f, 0.0f);
+        Vector3 middlePoint1 = new Vector3(0.0f, 0.0f, 5.0f);
+        Vector3 bottomPoint1 = new Vector3(5.0f, 0.0f, 0.0f);
+
+        for (float t = 0.0f; t <= 1.0f; t += (1.0f / (float)objectCount))
+        {
+            Vector3 firstSleapPoint = Vector3.Slerp(topPoint1, middlePoint1, t);
+            Vector3 secondSlerpPoint = Vector3.Slerp(middlePoint1, bottomPoint1, t);
+            Vector3 finallySlerpPoint = Vector3.Slerp(firstSleapPoint, secondSlerpPoint, t);
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphere.transform.position = finallySlerpPoint;
+            Material material = new Material(Shader.Find("Standard")) { color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.5f) };
+            UtilityRenderer.SetBlendMode(material, UtilityRenderer.Mode.Transparent);
+            sphere.GetComponent<Renderer>().material = material;
+        }
+
+        Vector3 topPoint2 = new Vector3(-5.0f, 0.0f, 0.0f);
+        Vector3 middlePoint2 = new Vector3(0.0f, 0.0f, 5.0f);
+        Vector3 bottomPoint2 = new Vector3(5.0f, 0.0f, 0.0f);
+
+        for (float t = 0.0f; t <= 1.0f; t += (1.0f / (float)objectCount))
+        {
+            Vector3 firstLeapPoint = Vector3.Lerp(topPoint2, middlePoint2, t);
+            Vector3 secondLerpPoint = Vector3.Lerp(middlePoint2, bottomPoint2, t);
+            Vector3 finallyLerpPoint = Vector3.Lerp(firstLeapPoint, secondLerpPoint, t);
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            sphere.transform.position = finallyLerpPoint;
+            Material material = new Material(Shader.Find("Standard")) { color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.5f) };
+            UtilityRenderer.SetBlendMode(material, UtilityRenderer.Mode.Transparent);
+            sphere.GetComponent<Renderer>().material = material;
+        }
     }
 }
