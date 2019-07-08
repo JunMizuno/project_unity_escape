@@ -14,17 +14,37 @@ public abstract class LineBase : MonoBehaviour
         lineRenderer = this.gameObject.AddComponent<LineRenderer>();
         lineRenderer.startWidth = this.startWidth;
         lineRenderer.endWidth = this.endWidth;
-        lineRenderer.material = new Material(Shader.Find("Starndard")) { color = Color.black };
+        lineRenderer.material = new Material(Shader.Find("Standard")) { color = Color.black };
         positionsList = new List<Vector3>();
         positionsList.Add(new Vector3(0.0f, 0.0f, 0.0f));
         positionsList.Add(new Vector3(0.0f, 0.0f, 0.0f));
         lineRenderer.SetPositions(positionsList.ToArray());
     }
 
-    protected void SetLinePositions(List<Vector3> vectorList)
+    protected void SetLineWidth(float startWidth, float endWidth)
+    {
+        this.startWidth = startWidth;
+        this.endWidth = endWidth;
+        lineRenderer.startWidth = this.startWidth;
+        lineRenderer.endWidth = this.endWidth;
+    }
+
+    protected void SetLineMaterial(Material material)
+    {
+        lineRenderer.material = material;
+    }
+
+    protected void SetLineColor(Color startColor, Color endColor)
+    {
+        lineRenderer.startColor = startColor;
+        lineRenderer.endColor = endColor;
+    }        
+
+    protected void SetLinePositions(List<Vector3> vectorList, bool isLoop)
     {
         positionsList = vectorList;
         lineRenderer.positionCount = positionsList.Count;
         lineRenderer.SetPositions(positionsList.ToArray());
+        lineRenderer.loop = isLoop;
     }
 }
