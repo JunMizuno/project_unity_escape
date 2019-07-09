@@ -13,6 +13,10 @@ public class TestData : MonoBehaviour
     private Queue<int> sampleIntQueue = new Queue<int>();
     private Stack<int> sampleIntStack = new Stack<int>();
 
+    // @memo. デリゲートテスト
+    delegate void ShowLog(string str);
+    delegate int CalculatePlus(int a, int b);
+
     private void Awake()
     {
 
@@ -21,7 +25,8 @@ public class TestData : MonoBehaviour
     private void Start()
     {
         //TestLerp();
-        TestSLerp();
+        //TestSLerp();
+        TestDelegate();
     }
 
     private void Update()
@@ -136,7 +141,6 @@ public class TestData : MonoBehaviour
 
     private void TestLerp()
     {
-        /*
         float floatValue1 = Mathf.Lerp(0.0f, 10.0f, 0.5f);
         Debug.Log("<color=cyan>" + "Leap(floatValue1)の中間点:" + floatValue1 + "</color>");
 
@@ -145,7 +149,6 @@ public class TestData : MonoBehaviour
 
         float floatValue3 = Mathf.Lerp(floatValue1, floatValue2, 0.5f);
         Debug.Log("<color=cyan>" + "Leap(floatValue3)の中間点:" + floatValue3 + "</color>");
-        */
 
         Vector3 vectorValue1 = Vector3.Lerp(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(10.0f, 10.0f, 10.0f), 0.5f);
         Debug.Log("<color=cyan>" + "Leap(VectorValue1)の中間点:" + vectorValue1 + "</color>");
@@ -159,17 +162,6 @@ public class TestData : MonoBehaviour
 
     private void TestSLerp()
     {
-        /*
-        Vector3 vectorValue1 = Vector3.Slerp(new Vector3(-10.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 10.0f), 0.5f);
-        Debug.Log("<color=magenta>" + "Leap(VectorValue1)の中間点:" + vectorValue1 + "</color>");
-
-        Vector3 vectorValue2 = Vector3.Slerp(new Vector3(0.0f, 0.0f, 10.0f), new Vector3(10.0f, 0.0f, 0.0f), 0.5f);
-        Debug.Log("<color=magenta>" + "Leap(VectorValue2)の中間点:" + vectorValue2 + "</color>");
-
-        Vector3 vectorValue3 = Vector3.Slerp(vectorValue1, vectorValue2, 0.5f);
-        Debug.Log("<color=magenta>" + "Leap(VectorValue3)の中間点:" + vectorValue3 + "</color>");
-        */
-
         int objectCount = 8;
 
         Vector3 topPoint1 = new Vector3(-5.0f, 0.0f, 0.0f);
@@ -203,5 +195,33 @@ public class TestData : MonoBehaviour
             UtilityRenderer.SetBlendMode(material, UtilityRenderer.Mode.Transparent);
             sphere.GetComponent<Renderer>().material = material;
         }
+    }
+
+    private void TestDelegate()
+    {
+        ShowLog testShowLog1 = new ShowLog(str => Debug.Log(str));
+        testShowLog1("デリゲートのnewでの生成テスト");
+
+        ShowLog testShowLog2 = delegate (string str)
+        {
+            Debug.Log("デリゲートの匿名メソッドでの生成テスト:" + str);
+        };
+        testShowLog2("1回目");
+
+        testShowLog2 = delegate (string str)
+        {
+            Debug.Log("デリゲートの匿名メソッドを代入する形:" + str);
+        };
+        testShowLog2("2回目");
+
+        // @memo. 複数引数の場合はラムダでないと表現できないかも
+        CalculatePlus testPlus1 = new CalculatePlus((int a, int b) => a + b);
+        Debug.Log("new生成で 1 + 1 = " + testPlus1(1, 1));
+
+        testPlus1 = delegate (int a, int b)
+        {
+            return (a + b) * 2;
+        };
+        Debug.Log("匿名メソッドで 1 + 1 = " + testPlus1(1, 1));
     }
 }
