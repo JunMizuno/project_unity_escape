@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+
 /// <summary>
 /// 取得数値などのテスト検証用のクラス
 /// </summary>
@@ -15,7 +17,10 @@ public class TestData : MonoBehaviour
 
     // @memo. デリゲートテスト
     delegate void ShowLog(string str);
-    delegate int CalculatePlus(int a, int b);
+    delegate int CalculateBase(int a, int b);
+
+    // @memo.
+    private Vector3[] vectorArray;
 
     private void Awake()
     {
@@ -26,7 +31,8 @@ public class TestData : MonoBehaviour
     {
         //TestLerp();
         //TestSLerp();
-        TestDelegate();
+        //TestDelegate();
+        TestLINQ();
     }
 
     private void Update()
@@ -215,7 +221,7 @@ public class TestData : MonoBehaviour
         testShowLog2("2回目");
 
         // @memo. 複数引数の場合はラムダでないと表現できないかも
-        CalculatePlus testPlus1 = new CalculatePlus((int a, int b) => a + b);
+        CalculateBase testPlus1 = new CalculateBase((int a, int b) => a + b);
         Debug.Log("new生成で 1 + 1 = " + testPlus1(1, 1));
 
         testPlus1 = delegate (int a, int b)
@@ -223,5 +229,56 @@ public class TestData : MonoBehaviour
             return (a + b) * 2;
         };
         Debug.Log("匿名メソッドで 1 + 1 = " + testPlus1(1, 1));
+
+        // @memo. それぞれの関数の処理を順番に行う
+        // @memo. testAddMethod2のような場合は最後の計算値のみが返ってくる(当然総合値ではない)ので、使い方としては不適当
+        ShowLog testAddMethod1 = new ShowLog(x => Debug.Log("new ShowLog:" + x));
+        testAddMethod1 += ShowDebugLog;
+        testAddMethod1("表示テスト");
+
+        CalculateBase testAddMethod2 = new CalculateBase((int a, int b) => a);
+        testAddMethod2 += CalcAddition;
+        testAddMethod2 += CalcSubtraction;
+        Debug.Log("複数メソッドを格納して 10 と 20 を渡した場合:" + testAddMethod2(10, 20));
+    }
+
+    private void ShowDebugLog(string str)
+    {
+        Debug.Log("ShowDebugLog:" + str);
+    }
+
+    private int CalcAddition(int a, int b)
+    {
+        return a + b;
+    }
+
+    private int CalcSubtraction(int a, int b)
+    {
+        return a - b;
+    }
+
+    private void TestLINQ()
+    {
+        vectorArray = new Vector3[6];
+
+        vectorArray[0] = new Vector3(1.0f, 0.0f, 1.0f);
+        vectorArray[1] = new Vector3(2.0f, 0.0f, 0.0f);
+        vectorArray[2] = new Vector3(3.0f, 3.0f, 0.0f);
+        vectorArray[3] = new Vector3(4.0f, 0.0f, -1.0f);
+        vectorArray[4] = new Vector3(5.0f, 0.0f, 0.0f);
+        vectorArray[5] = new Vector3(6.0f, 3.0f, 0.0f);
+
+        // @memo. 抽出するだけ
+        var query1 = vectorArray
+            .Where(vec => vec.x > 3.0f);
+        Debug.Log("query1 " + string.Join(", ", query1));
+
+        // @memo. 値はコピーされて使用される 
+        var query2 = vectorArray
+            .Select(vec => vec.x = 0.0f);
+        Debug.Log("query2 " + string.Join(", ", query2));
+
+        // @memo. 元の値は変化していない
+        Debug.Log("vectorArray " + string.Join(", ", vectorArray));
     }
 }
