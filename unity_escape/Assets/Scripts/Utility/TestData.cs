@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using System.Linq;
+
+using UnityEngine.Profiling;
 
 /// <summary>
 /// 取得数値などのテスト検証用のクラス
@@ -32,12 +35,16 @@ public class TestData : MonoBehaviour
         //TestLerp();
         //TestSLerp();
         //TestDelegate();
-        TestLINQ();
+        //TestLINQ();
     }
 
     private void Update()
     {
         //GetAxisData();
+
+        //Profiler.BeginSample("TestProfiler");
+        //TestProfiler();
+        //Profiler.EndSample();
     }
 
     private void OnEnable()
@@ -280,5 +287,27 @@ public class TestData : MonoBehaviour
 
         // @memo. 元の値は変化していない
         Debug.Log("vectorArray " + string.Join(", ", vectorArray));
+
+        // @memo. MoveNextで回す
+        IEnumerator e = vectorArray.GetEnumerator();
+        while (e.MoveNext()) {
+            var data = (Vector3)e.Current;
+            Debug.Log("vectorArray:" + data);
+        }
+    }
+
+    private void TestProfiler()
+    {
+        List<int> list1 = new List<int>(2000000);
+        for (int i = 0; i < 2000000; i++)
+        {
+            list1.Add(i);
+        }
+
+        List<int> list2 = new List<int>(1000000);
+        for (int i = 0; i < 1000000; i++)
+        {
+            list2.Add(i);
+        }
     }
 }
