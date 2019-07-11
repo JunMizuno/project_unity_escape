@@ -36,6 +36,11 @@ public class TestData : MonoBehaviour
         //TestSLerp();
         //TestDelegate();
         //TestLINQ();
+        //TestLoopPatern();
+
+        StartCoroutine("TestCoroutine");
+        //StopCoroutine("TestCoroutine");
+        //StopAllCoroutines();
     }
 
     private void Update()
@@ -309,5 +314,71 @@ public class TestData : MonoBehaviour
         {
             list2.Add(i);
         }
+    }
+
+    private void TestLoopPatern()
+    {
+        // @memo. ループの回り方をチェック
+        foreach (var value in GetNumber())
+        {
+            Debug.Log("<color=cyan>" + "TestLoopPatern() foreachで取得した数値:" + value + "</color>");
+            if (Console.KeyAvailable)
+            {
+                Debug.Log("<color=white>" + "キーが押されたので終了" + "</color>");
+                return;
+            }
+        }
+        
+        var e = GetNumber().GetEnumerator();
+        while (e.MoveNext())
+        {
+            Debug.Log("<color=green>" + "TestLoopPatern() whileで取得した数値:" + e.Current + "</color>");
+        }
+        
+    }
+
+    private IEnumerable<int> GetNumber()
+    {
+        // @memo. 検証用に複数回回す
+        for (int i = 0; i < 100; i++)
+        {
+            foreach (var value in Enumerable.Range(1, 3))
+            {
+                Debug.Log("<color=magenta>" + "GetNumber() 取得した数値:" + value + "</color>");
+                yield return value;
+            }
+        }
+    }
+
+    private IEnumerator TestCoroutine()
+    {
+        // @memo. この場合はフレームごとに1つの処理を行う
+        for (int i = 0; i < 10; i++)
+        {
+            Debug.Log("<color=white>" + "yield return null のループ:" + i + "</color>");
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(5.0f);
+        Debug.Log("<color=red>" + "ウエイト終了後" + "</color>");
+
+        // @memo. この場合は処理中断、次フレーム以降継続はしない
+        for (int i = 0; i < 10; i++)
+        {
+            Debug.Log("<color=white>" + "yield break のループ:" + i + "</color>");
+            yield break;
+        }
+
+        yield return true;
+    }
+
+    private IEnumerator<int> TestCoroutineWithReturnValue()
+    {
+        yield return 1;
+    }
+
+    private IEnumerator<bool> TestCoroutineWithRetuanBool()
+    {
+        yield return true;
     }
 }
