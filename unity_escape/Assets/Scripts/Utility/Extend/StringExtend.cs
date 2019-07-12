@@ -4,23 +4,16 @@ using UnityEngine;
 
 public static class StringExtend
 {
-    private static readonly string str;
-
-
     public static string WithColorTag(this string self, Color color)
     {
-        string retStr;
         string colorTag = ExchangeToByte(color);
-        retStr = "<color=#" + colorTag + ">" + self + "</color>";
-        return retStr;
+        return string.Format("<color=#{0}>{1}</color>", colorTag, self);
     }
 
     public static string WithColorTag(this string self, Color32 color)
     {
-        string retStr;
         string colorTag = ExchangeToString(color.r, color.g, color.b);
-        retStr = "<color=#" + colorTag + ">" + self + "</color>";
-        return retStr;
+        return string.Format("<color=#{0}>{1}</color>", colorTag, self);
     }
 
     private static string ExchangeToByte(Color color)
