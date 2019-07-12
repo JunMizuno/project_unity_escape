@@ -47,12 +47,14 @@ public class MessageLogger : MonoBehaviour
 
         for (int i = 0; i < this.rowCount; i++)
         {
-            this.rowObjects[i] = this.transform.GetChild(i).gameObject;
-            this.textLabels[i] = this.transform.GetChild(i).GetComponent<Text>();
-            this.layoutGroups[i] = this.transform.GetChild(i).GetComponent<HorizontalLayoutGroup>();
-
+            // @todo. オブジェクト内容決め打ちで記述している
             // @todo. ここにヒエラルキーにもオブジェクトを作ってしまうこと
+            this.rowObjects[i] = this.transform.GetChild(i).gameObject;
+            this.textLabels[i] = this.transform.GetChild(i).GetChild(0).GetComponent<Text>();
+            this.layoutGroups[i] = this.transform.GetChild(i).GetComponent<HorizontalLayoutGroup>();
         }
+
+        Enable = false;
     }
 
     public static void PushText(string text)
@@ -92,6 +94,7 @@ public class MessageLogger : MonoBehaviour
     {
         for (int i = 0; i < this.rowCount; i++)
         {
+            this.rowObjects[i].SetActive((i < this.textSlotList.Count) ? true : false);
             this.textLabels[i].text = (i < this.textSlotList.Count) ? this.textSlotList[i] : "";
             this.layoutGroups[i].padding.right = (i < this.textSlotList.Count) ? this.sidePadding : 0;
             this.layoutGroups[i].padding.left = (i < this.textSlotList.Count) ? this.sidePadding : 0;

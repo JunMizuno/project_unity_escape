@@ -41,6 +41,8 @@ public class TestData : MonoBehaviour
         //StartCoroutine("TestCoroutine");
         //StopCoroutine("TestCoroutine");
         //StopAllCoroutines();
+
+        //StartCoroutine("TestDebugMessage");
     }
 
     private void Update()
@@ -380,5 +382,25 @@ public class TestData : MonoBehaviour
     private IEnumerator<bool> TestCoroutineWithRetuanBool()
     {
         yield return true;
+    }
+
+    private IEnumerator TestDebugMessage()
+    {
+        MessageLogger.PushText("1つ目のコメント".WithColorTag(Color.red));
+
+        yield return new WaitForSeconds(10.0f);
+
+        MessageLogger.PushText("2つ目のコメント".WithColorTag(Color.blue));
+
+        yield return new WaitForSeconds(10.0f);
+
+        MessageLogger.PushText("3つ目のコメント".WithColorTag(Color.white));
+
+        yield return new WaitForSeconds(2.0f);
+
+        MessageLogger.PushText("4つ目のコメント".WithColorTag(Color.green));
+        MessageLogger.PushText("5つ目のコメント".WithColorTag(Color.magenta));
+
+        yield break;
     }
 }
