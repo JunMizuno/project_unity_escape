@@ -38,7 +38,7 @@ public class TestData : MonoBehaviour
         //TestLINQ();
         //TestLoopPatern();
 
-        StartCoroutine("TestCoroutine");
+        //StartCoroutine("TestCoroutine");
         //StopCoroutine("TestCoroutine");
         //StopAllCoroutines();
     }
