@@ -20,6 +20,9 @@ public class FadeEffect : MonoBehaviour
     private readonly float maxOpacity = 1.0f;
     private bool isFade;
 
+    /// <summary>
+    /// 生成時
+    /// </summary>
     private void Awake()
     {
         if (FadeCanvas != null)
@@ -34,11 +37,18 @@ public class FadeEffect : MonoBehaviour
 		}
     }
 
+    /// <summary>
+    /// フェードイン開始
+    /// </summary>
     public void FadeIn()
     {
         StartCoroutine("FadeInCoroutine");
     }
 
+    /// <summary>
+    /// フェードインのコルーチン
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeInCoroutine()
     {
         if (FadeCanvas == null)
@@ -66,11 +76,18 @@ public class FadeEffect : MonoBehaviour
         yield break;
     }
 
+    /// <summary>
+    /// フェードアウト開始
+    /// </summary>
     public void FadeOut()
     {
         StartCoroutine("FadeOutCoroutine");
     }
 
+    /// <summary>
+    /// フェードアウトのコルーチン
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeOutCoroutine()
     {
         if (FadeCanvas == null)
@@ -97,17 +114,5 @@ public class FadeEffect : MonoBehaviour
         FadeCanvas.gameObject.SetActive(false);
 
         yield break;
-    }
-
-    public void OnClickButtonAction()
-    {
-        // @todo. フェードアウトをかけても良いかもしれない
-        // @todo. 以下、ボタンに対してタッチ中かどうかを判定するもの、マネージャーなどで使用する想定(ここではテスト)
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("ボタン選択中".WithColorTag(Color.cyan));
-        }
-
-        Debug.Log("ボタンのタッチアクション".WithColorTag(Color.cyan));
     }
 }
