@@ -32,9 +32,6 @@ public class FadeEffect : MonoBehaviour
             FadeImage.rectTransform.sizeDelta = new Vector2(Screen.currentResolution.width, Screen.currentResolution.height);
             FadeImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 		}
-
-        FadeIn();
-        FadeOut();
     }
 
     public void FadeIn()
