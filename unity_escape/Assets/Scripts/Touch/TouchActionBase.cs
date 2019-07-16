@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 /// <summary>
 /// オブジェクトに対してのタッチ判定取得クラス
+/// 判定を撮りたいオブジェクトに対してアタッチすること
 /// ヒエラルキーにEventSystemの生成必須
 /// 対象のカメラ側にPhysicsRaycasterのアタッチ必須
 /// </summary>
@@ -63,7 +64,10 @@ public abstract class TouchActionBase :
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerDown(PointerEventData pointerEventData)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
 
+        }
     }
 
     /// <summary>
@@ -81,7 +85,10 @@ public abstract class TouchActionBase :
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerClick(PointerEventData pointerEventData)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
 
+        }
     }
 
     /// <summary>

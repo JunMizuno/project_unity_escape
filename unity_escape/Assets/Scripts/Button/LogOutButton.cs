@@ -6,6 +6,6 @@ public class LogOutButton : ButtonBase
 {
     new public void OnTouchButtonAction()
     {
-
+        Debug.Log("LogOutButton OnTouchButtonAction".WithColorTag(Color.yellow));
     }
 }

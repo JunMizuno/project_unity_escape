@@ -299,6 +299,12 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.Unity/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>/Users/jun_mizuno/ProjectFolder/unity_escape/unity_escape/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -311,14 +317,11 @@
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>/Users/jun_mizuno/ProjectFolder/unity_escape/unity_escape/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>/Users/jun_mizuno/ProjectFolder/unity_escape/unity_escape/Library/PackageCache/com.unity.collections@0.0.9-preview.12/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>/Users/jun_mizuno/ProjectFolder/unity_escape/unity_escape/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenEditor">
-      <HintPath>Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween">
-      <HintPath>Assets/Demigiant/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>/Applications/Unity(free_2018.3.12)/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -686,17 +689,61 @@
       <Project>{C13BAB18-DD6F-D3F3-3E97-E5602CAD7E97}</Project>
       <Name>unity_escape</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEditor.CacheServer.csproj">
+      <Project>{24AD727F-986F-47FD-E51B-7F4A13A71D7B}</Project>
+      <Name>UnityEditor.CacheServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ScriptableBuildPipeline.Editor.csproj">
+      <Project>{2BBF52C9-2461-254D-DABA-21C493E77295}</Project>
+      <Name>Unity.ScriptableBuildPipeline.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Jobs.csproj">
+      <Project>{D6051BF3-E2A3-0142-74CB-00765F5235F9}</Project>
+      <Name>Unity.Jobs</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Jobs.Editor.csproj">
+      <Project>{6B2DD3A7-D314-1C89-76E3-31717D631C6A}</Project>
+      <Name>Unity.Jobs.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Collections.csproj">
+      <Project>{DFE307E6-8D6D-6FA6-542E-4F295E97B0BE}</Project>
+      <Name>Unity.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
       <Project>{3A848AB7-9891-EDDA-D555-BF184C2F81F4}</Project>
       <Name>Unity.TextMeshPro.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ResourceManager.csproj">
+      <Project>{55E09CD0-87E7-EFE2-4146-817A9E4FFB6D}</Project>
+      <Name>Unity.ResourceManager</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.PackageManagerUI.Editor.csproj">
       <Project>{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}</Project>
       <Name>Unity.PackageManagerUI.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Addressables.Editor.csproj">
+      <Project>{18BD2596-5E21-9E99-67DA-CD9CD0DCA7D6}</Project>
+      <Name>Unity.Addressables.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
       <Project>{C12CEEC6-100C-58A2-DE36-314E4DE5E40B}</Project>
       <Name>Unity.CollabProxy.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Mathematics.csproj">
+      <Project>{CF96849C-7EC5-561A-2E6B-E507ADE81955}</Project>
+      <Name>Unity.Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Addressables.csproj">
+      <Project>{783A2732-9E35-82A6-03EC-F484014921D9}</Project>
+      <Name>Unity.Addressables</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ScriptableBuildPipeline.csproj">
+      <Project>{3927E391-7D56-8E4F-A29D-596623569022}</Project>
+      <Name>Unity.ScriptableBuildPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Mathematics.Editor.csproj">
+      <Project>{6AF95F4B-B8F1-38E0-2772-4BB952A98123}</Project>
+      <Name>Unity.Mathematics.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{07A21C90-D344-AE1A-8456-9910C203B41A}</Project>
@@ -708,20 +755,60 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\FollowingSceneCamera.cs" />
     <Compile Include="Assets\Editor\PlayerPrefsEditor.cs" />
+    <Compile Include="Assets\Editor\RuntimeInitialize.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\PlayFabEditor.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\ProgressBar.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\SubMenuComponent.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\TitleDataEditor.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\TitleDataViewer.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\TitleInternalDataEditor.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Components\TitleInternalDataViewer.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorAuthenticate.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorDataMenu.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorHeader.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorHelpMenu.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorMenu.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorPackages.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorSDKTools.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorSettings.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Panels\PlayFabEditorToolsMenu.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\PlayFabEditorSDK\ISerializer.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\PlayFabEditorSDK\PlayFabEditorApi.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\PlayFabEditorSDK\PlayFabEditorHttp.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\PlayFabEditorSDK\PlayFabEditorModels.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\PlayFabEditorSDK\SimpleJson.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\EditorCoroutine.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabEditorDataService.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabEditorHelper.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabEditorPrefsSO.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabEditorUtils.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabEditorVersion.cs" />
+    <Compile Include="Assets\PlayFabEditorExtensions\Editor\Scripts\Utils\PlayFabGuiFieldHelper.cs" />
+    <Compile Include="Assets\PlayFabSdk\Shared\Editor\PlayFabHelp.cs" />
+    <Compile Include="Assets\PlayFabSdk\Shared\Models\Editor\MakeSharedSettingsObj.cs" />
+    <Compile Include="Assets\unity-chan!\Unity-chan! Model\Editor\CreateLocatorHere.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
-    <None Include="Assets\ZRNAssets\005339_08932_25_14\Documents\ReadMe.txt" />
-    <None Include="Assets\ZRNAssets\005339_08932_25_14\Shaders\StandardDoubleClip.shader" />
-    <None Include="Assets\ZRNAssets\005339_08932_25_14\Shaders\su_Double_and_Clip.shader" />
-    <None Include="Assets\ZRNAssets\005339_08932_25_14\Shaders\su_VertexCol_1UV_Single.shader" />
-    <None Include="Assets\ZRNAssets\PQAssets\Query-Chan\Documents\ReadMe.txt" />
-    <None Include="Assets\ZRNAssets\PQAssets\Query-Chan\Shaders\PQ_Skin.shader" />
-    <None Include="Assets\ZRNAssets\PQAssets\Query-Chan\Shaders\PQ_TransBlue.shader" />
-    <None Include="Assets\ZRNAssets\Skyboxes\_skybox info.txt" />
+    <None Include="Assets\PlayFabSdk\link.xml" />
+    <None Include="Assets\README_SD_UnityChan.txt" />
+    <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\readme.txt" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\Stage\Shader\AlphaMask.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_eyelash_blend.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_hair.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
+    <None Include="Assets\unity-chan!\Unity-chan! Model\Audio\Voice\unity-chan_voice_list.txt" />
     <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryCommon.uss" />
     <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryDark.uss" />
     <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryLight.uss" />
