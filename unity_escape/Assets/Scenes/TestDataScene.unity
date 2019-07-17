@@ -310,7 +310,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 884e98ffb3bb5459cbbe1f76f245df7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -346,7 +346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453511765}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1427007853}
@@ -361,7 +361,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 453511765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9474f8472cf1472a83afd9fc708285f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6afeaf1d1180c478f882d6322a4190bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &455958913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7332458001794689050, guid: 4271852380133448f86c15457052cf01,
+    type: 3}
+  m_PrefabInstance: {fileID: 7332458001340303771}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d649a298bf39429ea746e50495dbe57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &545101193
@@ -392,7 +404,7 @@ Transform:
   m_GameObject: {fileID: 545101193}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 2032046979}
   m_RootOrder: 0
@@ -1026,6 +1038,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2055550818}
+  - component: {fileID: 2055550819}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1050,6 +1063,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2055550819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055550817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01805cb88cec544c5bd8e7abfadf1d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TouchManager: {fileID: 455958913}
 --- !u!1001 &492414868184239454
 PrefabInstance:
   m_ObjectHideFlags: 0

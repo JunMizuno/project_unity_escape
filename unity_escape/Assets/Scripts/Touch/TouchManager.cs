@@ -13,10 +13,30 @@ public class TouchManager : TouchActionBase
     public GameObject FieldObject;
 
     private Action<PointerEventData> pointerEnterAction;
+    public Action<PointerEventData> PointerEnterAction
+    {
+        set { pointerEnterAction = value; }
+    }
     private Action<PointerEventData> pointerExitAction;
+    public Action<PointerEventData> PointerExitAction
+    {
+        set { pointerExitAction = value; }
+    }
     private Action<PointerEventData> touchDownAction;
+    public Action<PointerEventData> TouchDownAction
+    {
+        set { touchDownAction = value; }
+    }
     private Action<PointerEventData> touchHoldAction;
+    public Action<PointerEventData> TouchHoldAction
+    {
+        set { touchHoldAction = value; }
+    }
     private Action<PointerEventData> touchUpAction;
+    public Action<PointerEventData> TouchUpAction
+    {
+        set { touchUpAction = value; }
+    }
 
     private Vector2 pointerPositionDelta;
     private Vector2 pointerMovedPosition;
@@ -26,32 +46,7 @@ public class TouchManager : TouchActionBase
 
     private readonly float PERSPECTIVE_Z_POINT = 10.0f;
     private readonly float ORTHOGRAPHIC_Z_POINT = 0.0f;
-
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDestroy()
-    {
-
-    }
-
+    
     public override void OnPointerEnter(PointerEventData pointerEventData)
     {
         base.OnPointerEnter(pointerEventData);
@@ -150,6 +145,10 @@ public class TouchManager : TouchActionBase
         this.touchUpAction.NullSafeCall(pointerEventData);
     }
 
+    /// <summary>
+    /// タッチ位置のワールド座標を取得
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetCurrentTouchActionPositionInWorld()
     {
         // @memo. カメラのPerspectiveとOrthographicで渡す値を変えること
@@ -166,7 +165,11 @@ public class TouchManager : TouchActionBase
             {
                 if (hitInfo.collider.name == FieldObject.name)
                 {
-                    worldPosition.z = hitInfo.point.z;
+                    worldPosition = hitInfo.point;
+                }
+                else
+                {
+                    // @todo. 当たりがない場合はどうするか考えること
                 }
             }
         }
