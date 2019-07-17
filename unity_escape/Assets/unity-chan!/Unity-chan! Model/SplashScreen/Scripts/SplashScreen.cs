@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 namespace UnityChan
@@ -6,9 +7,10 @@ namespace UnityChan
 	[ExecuteInEditMode]
 	public class SplashScreen : MonoBehaviour
 	{
-		void NextLevel ()
+        [System.Obsolete]
+        void NextLevel ()
 		{
-			Application.LoadLevel (Application.loadedLevel + 1);
+            Application.LoadLevel(Application.loadedLevel + 1);
 		}
 	}
 }

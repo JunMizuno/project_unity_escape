@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEditor;
 using DG.Tweening;
 
 /// <summary>
@@ -28,7 +26,16 @@ public class RuntimeInitialize
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AfterSceneLoad()
     {
-        // @memo. ここでDontDestroyOnLoadのオブジェクトを生成
+        // @memo. ここでDontDestroyOnLoadのオブジェクトが自動的に生成される
         //Debug.Log("RuntimeInitializeOnLoadMethod AfterSceneLoad completed".WithColorTag(Color.red));
+
+        /*
+        var prefab = (Resources.Load("パス名") as GameObject);
+        if (prefab != null)
+        {
+            var cloned = Object.Instantiate(prefab);
+            cloned.name = prefab.name;
+        }
+        */
     }
 }

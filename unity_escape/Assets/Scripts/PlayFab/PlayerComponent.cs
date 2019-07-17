@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerComponent : MonoBehaviour
 {
-    [SerializeField] CapsuleCollider capsuleCollider;
+    [SerializeField] public CapsuleCollider capsuleCollider;
 
     // Start is called before the first frame update
     void Start()

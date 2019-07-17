@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
-    [SerializeField] Animator playerAnimator;
-    [SerializeField] PlayerComponent player;
+    [SerializeField] public Animator playerAnimator;
+    [SerializeField] public PlayerComponent player;
 
     // ジャンプ中か判定するフラグ
     bool isJumping;

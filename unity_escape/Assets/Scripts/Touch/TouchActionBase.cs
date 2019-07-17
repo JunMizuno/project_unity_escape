@@ -59,7 +59,7 @@ public abstract class TouchActionBase :
     }
 
     /// <summary>
-    /// グリック時
+    /// グリック時(クリック直後)
     /// </summary>
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerDown(PointerEventData pointerEventData)
@@ -80,7 +80,7 @@ public abstract class TouchActionBase :
     }
 
     /// <summary>
-    /// クリック時
+    /// クリック時(OnPointerUpと同じ挙動)
     /// </summary>
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerClick(PointerEventData pointerEventData)

@@ -1,28 +1,176 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public static class TouchManager
+/// <summary>
+/// TouchAreaと合わせてアタッチして使用する仕様
+/// </summary>
+public class TouchManager : TouchActionBase
 {
-    public static void OnTouchAction()
+    [SerializeField]
+    public GameObject FieldObject;
+
+    private Action<PointerEventData> pointerEnterAction;
+    private Action<PointerEventData> pointerExitAction;
+    private Action<PointerEventData> touchDownAction;
+    private Action<PointerEventData> touchHoldAction;
+    private Action<PointerEventData> touchUpAction;
+
+    private Vector2 pointerPositionDelta;
+    private Vector2 pointerMovedPosition;
+
+    private Vector2 touchPositionDelta;
+    private Vector2 touchActionPosition;
+
+    private readonly float PERSPECTIVE_Z_POINT = 10.0f;
+    private readonly float ORTHOGRAPHIC_Z_POINT = 0.0f;
+
+    private void Awake()
     {
-        if (Application.isEditor)
-        {
-            EditorTouchAction();
-        }
-        else
-        {
-            DeviceTouchAction();
-        }
+
     }
 
-    private static void EditorTouchAction()
+    private void Start()
     {
 
     }
 
-    private static void DeviceTouchAction()
+    private void Update()
     {
 
+    }
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDestroy()
+    {
+
+    }
+
+    public override void OnPointerEnter(PointerEventData pointerEventData)
+    {
+        base.OnPointerEnter(pointerEventData);
+        ExecutePointerEnterAction(pointerEventData);
+    }
+
+    public override void OnPointerExit(PointerEventData pointerEventData)
+    {
+        base.OnPointerExit(pointerEventData);
+        ExecutePointerExitAction(pointerEventData);
+    }
+
+    public override void OnPointerDown(PointerEventData pointerEventData)
+    {
+        base.OnPointerDown(pointerEventData);
+        ExecuteTouchDownAction(pointerEventData);
+    }
+
+    public override void OnPointerUp(PointerEventData pointerEventData)
+    {
+        base.OnPointerUp(pointerEventData);
+        ExecuteTouchUpAction(pointerEventData);
+    }
+
+    public override void OnDrag(PointerEventData pointerEventData)
+    {
+        base.OnDrag(pointerEventData);
+    }
+
+    private void ClearPointerEnterAction()
+    {
+        this.pointerEnterAction = null;
+    }
+
+    private void ClearPointerExitAction()
+    {
+        this.pointerExitAction = null;
+    }
+
+    private void ClearTouchDownAction()
+    {
+        this.touchDownAction = null;
+    }
+
+    private void ClearTouchHoldAction()
+    {
+        this.touchHoldAction = null;
+    }
+
+    private void ClearTouchUpAction()
+    {
+        this.touchUpAction = null;
+    }
+
+    public void ClearAllAction()
+    {
+        ClearPointerEnterAction();
+        ClearPointerExitAction();
+        ClearTouchDownAction();
+        ClearTouchHoldAction();
+        ClearTouchUpAction();
+    }
+
+    public void ExecutePointerEnterAction(PointerEventData pointerEventData)
+    {
+        this.pointerPositionDelta = pointerEventData.position - this.pointerMovedPosition;
+        this.pointerMovedPosition = pointerEventData.position;
+        this.pointerEnterAction.NullSafeCall(pointerEventData);
+    }
+
+    public void ExecutePointerExitAction(PointerEventData pointerEventData)
+    {
+        this.pointerPositionDelta = pointerEventData.position - this.pointerMovedPosition;
+        this.pointerMovedPosition = pointerEventData.position;
+        this.pointerExitAction.NullSafeCall(pointerEventData);
+    }
+
+    public void ExecuteTouchDownAction(PointerEventData pointerEventData)
+    {
+        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
+        this.touchActionPosition = pointerEventData.position;
+        this.touchDownAction.NullSafeCall(pointerEventData);
+    }
+
+    public void ExecuteTouchHoldAction(PointerEventData pointerEventData)
+    {
+        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
+        this.touchActionPosition = pointerEventData.position;
+        this.touchHoldAction.NullSafeCall(pointerEventData);
+    }
+
+    public void ExecuteTouchUpAction(PointerEventData pointerEventData)
+    {
+        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
+        this.touchActionPosition = pointerEventData.position;
+        this.touchUpAction.NullSafeCall(pointerEventData);
+    }
+
+    public Vector3 GetCurrentTouchActionPositionInWorld()
+    {
+        // @memo. カメラのPerspectiveとOrthographicで渡す値を変えること
+        var position = new Vector3(touchActionPosition.x, touchActionPosition.y, PERSPECTIVE_Z_POINT);
+        var worldPosition = Camera.main.ScreenToWorldPoint(position);
+
+        // @memo. フィールドの設定がある場合はその地面の座標を計算する(フィールドのオブジェクトにはCollider必須)
+        // @memo. フィールドの設定が無い場合はワールドのX軸・Y軸のみ返すことになる
+        if (FieldObject != null)
+        {
+            Ray touchPointToRay = Camera.main.ScreenPointToRay(touchActionPosition);
+            RaycastHit hitInfo = new RaycastHit();
+            if (Physics.Raycast(touchPointToRay, out hitInfo))
+            {
+                if (hitInfo.collider.name == FieldObject.name)
+                {
+                    worldPosition.z = hitInfo.point.z;
+                }
+            }
+        }
+
+        return worldPosition;
     }
 }
