@@ -17,10 +17,6 @@ public class CameraManager : MonoBehaviour
     public Camera MainCamera;
 
     private Vector3 originalPosition;
-    private float velocityY = 0.0f;
-    private float velocityZ = 0.0f;
-
-    private CancellationTokenSource tokenSource;
 
     private void Awake()
     {
@@ -37,8 +33,6 @@ public class CameraManager : MonoBehaviour
         if (MainCamera != null)
         {
             originalPosition = MainCamera.transform.position;
-
-            //mainCamera_.transform.DOMoveZ(-30.0f, 5.0f);
         }
     }
 
@@ -48,78 +42,21 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
 
-
-
-
-
-        // @memo. 以下、テスト
-        RefreshCameraPos();
-
-        if (tokenSource != null)
-        {
-            var cancelToken = tokenSource.Token;
-            Task.Run(() => OnAsyncTest(cancelToken));
-        }
     }
 
     private void OnEnable()
     {
-        if (tokenSource == null)
-        {
-            tokenSource = new CancellationTokenSource();
-        }
+
     }
 
     private void OnDisable()
     {
-        if (tokenSource != null)
-        {
-            tokenSource.Cancel();
-            Debug.Log("OnDisable():タスク破棄");
-        }
+
     }
 
     private void OnDestroy()
     {
-        if (tokenSource != null)
-        {
-            tokenSource.Cancel();
-            Debug.Log("OnDestroy():タスク破棄");
-        }
-    }
 
-    private async Task OnAsyncTest(CancellationToken cancelToken)
-    {
-        //await Task.Run(() =>
-        //{
-        //    // 非同期したい処理
-        //    velocityZ_ -= 0.0005f;
-
-        //}).ContinueWith((obj) =>
-        //{
-        //    Debug.Log("スレッドナンバー:" + Thread.CurrentThread.ManagedThreadId);
-        //});
-
-        await Task.Delay(2000).ContinueWith((obj) =>
-        {
-            if (cancelToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            velocityY += 0.00001f;
-            if (velocityY > 0.05f)
-            {
-                velocityY = 0.05f;
-            }
-
-            velocityZ -= 0.00005f;
-            if (velocityZ < -0.5f)
-            {
-                velocityZ = -0.5f;
-            }
-            Debug.Log("スレッドナンバー:" + Thread.CurrentThread.ManagedThreadId);
-        });
     }
 
     private void RefreshCameraPos()
@@ -128,18 +65,6 @@ public class CameraManager : MonoBehaviour
         {
             return;
         }
-
-        var position = MainCamera.transform.position;
-        position.y += velocityY;
-        position.z += velocityZ;
-        if (position.z < -10.0f)
-        {
-            velocityY = 0.0f;
-            velocityZ = 0.0f;
-            position.y = originalPosition.y;
-            position.z = originalPosition.z;
-        }
-        MainCamera.transform.position = position;
     }
 
     private void SetPoasition(Vector3 position)
@@ -155,7 +80,6 @@ public class CameraManager : MonoBehaviour
         //Vector3 axis = new Vector3(0f, 0f, 1f); // 回転軸
         //float angle = 90f * Time.deltaTime; // 回転の角度
         //Quaternion q = Quaternion.AngleAxis(angle, axis); // 軸axisの周りにangle回転させるクォータニオン
-
 
         if (MainCamera != null)
         {

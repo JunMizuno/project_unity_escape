@@ -7,6 +7,9 @@ using System.Linq;
 
 using UnityEngine.Profiling;
 
+using System.Threading;
+using System.Threading.Tasks;
+
 /// <summary>
 /// 取得数値などのテスト検証用のクラス
 /// </summary>
@@ -24,6 +27,9 @@ public class TestData : MonoBehaviour
 
     // @memo.
     private Vector3[] vectorArray;
+
+    // @memo. 非同期テスト
+    private CancellationTokenSource tokenSource;
 
     private void Awake()
     {
@@ -43,6 +49,8 @@ public class TestData : MonoBehaviour
         //StopAllCoroutines();
 
         //StartCoroutine("TestDebugMessage");
+
+        ExecuteAsync();
     }
 
     private void Update()
@@ -56,17 +64,26 @@ public class TestData : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        if (tokenSource == null)
+        {
+            tokenSource = new CancellationTokenSource();
+        }
     }
 
     private void OnDisable()
     {
-        
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+        }
     }
 
     private void OnDestroy()
     {
-        
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+        }
     }
 
     private void OnGUI()
@@ -404,5 +421,51 @@ public class TestData : MonoBehaviour
         MessageLogger.PushText("5つ目のコメント".WithColorTag(Color.magenta));
 
         yield break;
+    }
+
+    private async Task TestAsyncFunc(CancellationToken cancelToken)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            await Task.Run(() =>
+            {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                // 非同期したい処理をここに
+
+            }).ContinueWith((obj) =>
+            {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                Debug.Log(string.Format("Task.Run() {0}番目の処理 スレッドナンバー:{1}", i + 1, Thread.CurrentThread.ManagedThreadId));
+            });
+
+            await Task.Delay(2000).ContinueWith((obj) =>
+            {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                // 非同期死体処理をここに
+
+                Debug.Log(string.Format("Task.Delay() {0}番目の処理 スレッドナンバー:{1}", i + 1, Thread.CurrentThread.ManagedThreadId));
+            });
+        }
+    }
+
+    private void ExecuteAsync()
+    {
+        if (tokenSource != null)
+        {
+            var cancelToken = tokenSource.Token;
+            Task.Run(() => TestAsyncFunc(cancelToken));
+        }
     }
 }
