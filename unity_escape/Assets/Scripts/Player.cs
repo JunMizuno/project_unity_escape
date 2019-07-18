@@ -6,7 +6,9 @@ using DG.Tweening;
 public class Player : ObjectBase
 {
     private readonly float PLAYER_DEFAULT_HEIGHT = 0.5f;
-    private readonly float MOVING_DISTANCE_PER_SECOND = 1.0f;
+    private readonly float MOVING_DISTANCE_PER_SECOND = 0.2f;
+    private readonly float MOVING_MIN_TIME = 2.0f;
+    private readonly float MOVING_MAX_TIME = 8.0f;
 
     private Sequence sequence;
 
@@ -19,13 +21,17 @@ public class Player : ObjectBase
         {
             touchArea.TouchUpAction = (x) =>
             {
+                sequence.Kill();
+
                 var touchWorldPosition = touchArea.GetCurrentTouchActionPositionInWorld();
                 // @memo. プレイヤーの高さは変更しないため固定値を設定
                 touchWorldPosition.y = PLAYER_DEFAULT_HEIGHT;
 
-                sequence.Kill();
+                float distance = (touchWorldPosition - this.transform.position).sqrMagnitude;
+                float time = Mathf.Clamp((distance * MOVING_DISTANCE_PER_SECOND), MOVING_MIN_TIME, MOVING_MAX_TIME);
+
                 sequence = DOTween.Sequence();
-                sequence.Append(this.transform.DOMove(touchWorldPosition, 1.0f)
+                sequence.Append(this.transform.DOMove(touchWorldPosition, time)
                     .SetEase(Ease.OutSine)
                     .OnComplete(() =>
                     {
