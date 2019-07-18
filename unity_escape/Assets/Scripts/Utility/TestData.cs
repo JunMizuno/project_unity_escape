@@ -365,11 +365,13 @@ public class TestData : MonoBehaviour
         Debug.Log("<color=red>" + "ウエイト終了後" + "</color>");
 
         // @memo. この場合は処理中断、次フレーム以降継続はしない
+        /*
         for (int i = 0; i < 10; i++)
         {
             Debug.Log("<color=white>" + "yield break のループ:" + i + "</color>");
             yield break;
         }
+        */
 
         yield return true;
     }

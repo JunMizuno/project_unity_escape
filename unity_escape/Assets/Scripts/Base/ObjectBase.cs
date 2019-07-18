@@ -6,11 +6,11 @@ public class ObjectBase : MonoBehaviour
 {
     virtual protected void Start()
     {
-        Debug.Log("------ObjectBase:Start()");
+
     }
 
     virtual protected void Update()
     {
-        Debug.Log("------ObjectBase:Update()");
+
     }
 }

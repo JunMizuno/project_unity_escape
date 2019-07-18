@@ -44,9 +44,9 @@ public class TouchManager : TouchActionBase
     private Vector2 touchPositionDelta;
     private Vector2 touchActionPosition;
 
-    private readonly float PERSPECTIVE_Z_POINT = 10.0f;
-    private readonly float ORTHOGRAPHIC_Z_POINT = 0.0f;
-    
+    private readonly float PERSPECTIVE_Z_POINT = 5.0f;
+    //private readonly float ORTHOGRAPHIC_Z_POINT = 0.0f;
+
     public override void OnPointerEnter(PointerEventData pointerEventData)
     {
         base.OnPointerEnter(pointerEventData);
@@ -126,22 +126,20 @@ public class TouchManager : TouchActionBase
 
     public void ExecuteTouchDownAction(PointerEventData pointerEventData)
     {
-        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
-        this.touchActionPosition = pointerEventData.position;
         this.touchDownAction.NullSafeCall(pointerEventData);
     }
 
     public void ExecuteTouchHoldAction(PointerEventData pointerEventData)
     {
-        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
-        this.touchActionPosition = pointerEventData.position;
         this.touchHoldAction.NullSafeCall(pointerEventData);
     }
 
     public void ExecuteTouchUpAction(PointerEventData pointerEventData)
     {
-        this.touchPositionDelta = pointerEventData.position - this.touchPositionDelta;
+        // @memo. タッチが終了した時点でのみ座標の記録を行う
+        this.touchPositionDelta = pointerEventData.position - this.touchActionPosition;
         this.touchActionPosition = pointerEventData.position;
+
         this.touchUpAction.NullSafeCall(pointerEventData);
     }
 
@@ -152,28 +150,37 @@ public class TouchManager : TouchActionBase
     public Vector3 GetCurrentTouchActionPositionInWorld()
     {
         // @memo. カメラのPerspectiveとOrthographicで渡す値を変えること
-        var position = new Vector3(touchActionPosition.x, touchActionPosition.y, PERSPECTIVE_Z_POINT);
+        var position = new Vector3(this.touchActionPosition.x, this.touchActionPosition.y, PERSPECTIVE_Z_POINT);
         var worldPosition = Camera.main.ScreenToWorldPoint(position);
 
         // @memo. フィールドの設定がある場合はその地面の座標を計算する(フィールドのオブジェクトにはCollider必須)
         // @memo. フィールドの設定が無い場合はワールドのX軸・Y軸のみ返すことになる
         if (FieldObject != null)
         {
-            Ray touchPointToRay = Camera.main.ScreenPointToRay(touchActionPosition);
-            RaycastHit hitInfo = new RaycastHit();
-            if (Physics.Raycast(touchPointToRay, out hitInfo))
+            Ray touchPointToRay = Camera.main.ScreenPointToRay(this.touchActionPosition);
+
+            // @memo. 一番近い当たりを取る場合はPhysics.Raycast(ray, out hitInfo)で取れる
+            foreach (RaycastHit hitInfo in Physics.RaycastAll(touchPointToRay))
             {
                 if (hitInfo.collider.name == FieldObject.name)
                 {
                     worldPosition = hitInfo.point;
-                }
-                else
-                {
-                    // @todo. 当たりがない場合はどうするか考えること
+                    break;
                 }
             }
         }
 
         return worldPosition;
+    }
+
+    public float GetDeltaDistance()
+    {
+        var currenPosition = new Vector3(this.touchActionPosition.x, this.touchActionPosition.y, PERSPECTIVE_Z_POINT);
+        var currentWorldPosition = Camera.main.ScreenToWorldPoint(currenPosition);
+
+        var previousPosition = new Vector3(this.touchActionPosition.x - touchPositionDelta.x, this.touchActionPosition.y - touchPositionDelta.y, PERSPECTIVE_Z_POINT);
+        var previousWorldPosition = Camera.main.ScreenToWorldPoint(previousPosition);
+
+        return (currentWorldPosition - previousWorldPosition).sqrMagnitude;
     }
 }

@@ -5,6 +5,11 @@ using DG.Tweening;
 
 public class Player : ObjectBase
 {
+    private readonly float PLAYER_DEFAULT_HEIGHT = 0.5f;
+    private readonly float MOVING_DISTANCE_PER_SECOND = 1.0f;
+
+    private Sequence sequence;
+
     protected override void Start()
     {
         base.Start();
@@ -14,12 +19,14 @@ public class Player : ObjectBase
         {
             touchArea.TouchUpAction = (x) =>
             {
-                var worldPosition = touchArea.GetCurrentTouchActionPositionInWorld();
-                worldPosition.y = 0.5f;
+                var touchWorldPosition = touchArea.GetCurrentTouchActionPositionInWorld();
+                // @memo. プレイヤーの高さは変更しないため固定値を設定
+                touchWorldPosition.y = PLAYER_DEFAULT_HEIGHT;
 
-                var sequence = DOTween.Sequence();
-                sequence.Append(this.transform.DOMove(worldPosition, 1.0f)
-                    .SetEase(Ease.InOutSine)
+                sequence.Kill();
+                sequence = DOTween.Sequence();
+                sequence.Append(this.transform.DOMove(touchWorldPosition, 1.0f)
+                    .SetEase(Ease.OutSine)
                     .OnComplete(() =>
                     {
                         sequence.Kill();
@@ -28,5 +35,15 @@ public class Player : ObjectBase
                 sequence.Play();
             };
         }
+    }
+
+    private void OnDisable()
+    {
+        sequence.Kill();
+    }
+
+    private void OnDestroy()
+    {
+        sequence.Kill();
     }
 }
