@@ -8,15 +8,24 @@ using DG.Tweening;
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
-    private CameraManager instance;
-    public CameraManager Instance {
-        get { return this.instance; }
-    }
-
     [SerializeField]
     public Camera MainCamera;
 
+    [SerializeField]
+    public GameObject TargetObject;
+
+    private CameraManager instance;
+    public CameraManager Instance {
+        get
+        {
+            return this.instance;
+        }
+    }
+
     private Vector3 originalPosition;
+
+    private readonly float CAMERA_POS_Y_WITH_GLOBAL_MODE = 5.0f;
+    private readonly float CAMERA_DISTANCE_Z_WITH_GLOBAL_MODE = -7.0f;
 
     private void Awake()
     {
@@ -41,7 +50,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        RefreshCameraPos();
     }
 
     private void OnEnable()
@@ -65,9 +74,17 @@ public class CameraManager : MonoBehaviour
         {
             return;
         }
+
+        if (TargetObject == null)
+        {
+            return;
+        }
+
+        RefreshCameraPosByGlobal();
+        //RefreshCameraPosByFollowing();
     }
 
-    private void SetPoasition(Vector3 position)
+    private void SetPosition(Vector3 position)
     {
         if (MainCamera != null)
         {
@@ -98,5 +115,23 @@ public class CameraManager : MonoBehaviour
     public void SetLookTarget(Transform targetTrans)
     {
         SetTargetTransform(targetTrans);
+    }
+
+    private void RefreshCameraPosByGlobal()
+    {
+        var backPosition = TargetObject.transform.position;
+        backPosition.y = CAMERA_POS_Y_WITH_GLOBAL_MODE;
+        backPosition.z = backPosition.z + CAMERA_DISTANCE_Z_WITH_GLOBAL_MODE;
+
+        SetPosition(backPosition);
+        // @todo.ローテーションもh必要ならここに
+        SetLookTarget(TargetObject.transform);
+    }
+
+    private void RefreshCameraPosByFollowing()
+    {
+
+
+
     }
 }

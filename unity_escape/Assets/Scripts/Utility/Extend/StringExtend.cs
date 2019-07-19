@@ -49,6 +49,7 @@ public static class StringExtend
     /// <returns></returns>
     private static string ExchangeToString(int r, int g, int b)
     {
+        // @memo. 16進数に変換
         string r16 = string.Format("{0}", r.ToString("x4"));
         string g16 = string.Format("{0}", g.ToString("x4"));
         string b16 = string.Format("{0}", b.ToString("x4"));

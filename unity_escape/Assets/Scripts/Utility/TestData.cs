@@ -50,7 +50,7 @@ public class TestData : MonoBehaviour
 
         //StartCoroutine("TestDebugMessage");
 
-        ExecuteAsync();
+        //ExecuteAsync();
     }
 
     private void Update()
