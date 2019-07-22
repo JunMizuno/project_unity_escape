@@ -403,10 +403,22 @@ public static class StringExtend
         return self.Split(separator, StringSplitOptions.None);
     }
 
+    /// <summary>
+    /// 自身が指定されたいずれかの文字列と等しいかどうか
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsAny(this string self, params string[] values)
+    {
+        return values.Any(c => c == self);
+    }
 
-
-
-
-
-
+    /// <summary>
+    /// 自身がnullまたは空文字であるか空文字だけで構成されているかどうか
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
+    public static bool IsNullOrWhiteSpace(this string self)
+    {
+        return self == null || self.Trim() == "";
+    }
 }
