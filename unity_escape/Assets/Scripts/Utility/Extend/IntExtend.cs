@@ -35,6 +35,7 @@ public static class IntExtend
         return self.ToString("D" + digits);
     }
 
+    // @todo. 以下、このままではコールバック内でbreakとかが使えない…
     /// <summary>
     /// 自身の数値分、指定された処理をループして実行する
     /// </summary>
