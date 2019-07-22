@@ -421,4 +421,47 @@ public static class StringExtend
     {
         return self == null || self.Trim() == "";
     }
+
+    /// <summary>
+    /// 文字列を再構成して最後に改行ラインを追加する
+    /// フォーマットは{0}などで指定する
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="format"></param>
+    /// <param name="arg"></param>
+    /// <returns></returns>
+    public static StringBuilder AppendLine(this StringBuilder self, string format, object arg)
+    {
+        return self.AppendFormat(format, arg).AppendLine();
+    }
+
+    /// <summary>
+    /// 文字列を再構成して最後に改行ラインを追加する
+    /// フォーマットは{0}{1}などで指定する
+    /// </summary>
+    /// <returns></returns>
+    public static StringBuilder AppendLine(this StringBuilder self, string format, params object[] args)
+    {
+        return self.AppendFormat(format, args).AppendLine();
+    }
+
+    /// <summary>
+    /// 文字列を再構成して最後に改行ラインを追加する
+    /// フォーマットは{0}{1}で指定する
+    /// </summary>
+    /// <returns></returns>
+    public static StringBuilder AppendLine(this StringBuilder self, string format, object arg1, object arg2)
+    {
+        return self.AppendFormat(format, arg1, arg2).AppendLine();
+    }
+
+    /// <summary>
+    /// 文字列を再構成して最後に改行ラインを追加する
+    /// フォーマットは{0}{1}{2}で指定する
+    /// </summary>
+    /// <returns></returns>
+    public static StringBuilder AppendLine(this StringBuilder self, string format, object arg1, object arg2, object arg3)
+    {
+        return self.AppendFormat(format, arg1, arg2, arg3).AppendLine();
+    }
 }
