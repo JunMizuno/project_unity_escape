@@ -108,6 +108,7 @@ public class Gauge : MonoBehaviour
         float startedFillAmount = gauge.fillAmount;
         float sign = (startedFillAmount > value) ? -1.0f : 1.0f;
 
+        // @memo. ボックス化はパフォーマンスが悪いとの事で、それを防ぐ書き方
         // @memo. ラムダ、開始値、終了値、所要時間(秒)の順に指定
         DOTween.To(updateValue =>
         {
