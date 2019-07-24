@@ -25,6 +25,8 @@ public class Player : ObjectBase
             {
                 sequence.Kill();
 
+                // @todo. フィールドにマーカーを追加
+
                 var touchWorldPosition = touchArea.GetCurrentTouchActionPositionInWorld();
                 // @memo. プレイヤーの高さは変更しないため固定値を設定
                 touchWorldPosition.y = PLAYER_DEFAULT_HEIGHT;
@@ -53,6 +55,8 @@ public class Player : ObjectBase
                     .OnComplete(() =>
                     {
                         sequence.Kill();
+
+                        // @todo. フィールドのマーカーを削除
                     })
                     );
                 sequence.Join(this.transform.DORotate(newAngles, TURN_AROUND_TIME)
