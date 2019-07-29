@@ -295,25 +295,6 @@ public static class ListExtend
     }
 
     /// <summary>
-    /// 指定された条件でソートをかける
-    /// 先にselector1でソートした後にselector2で再度ソートをかける
-    /// @todo. 使い方に難があるかもしれないので要チェック
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="array"></param>
-    /// <param name="selector1"></param>
-    /// <param name="selector2"></param>
-    public static void Sort<TSource, TResult>(this TSource[] array, Func<TSource, TResult> selector1, Func<TSource, TResult> selector2) where TResult : IComparable
-    {
-        Array.Sort(array, (x, y) =>
-        {
-            var result = selector1(x).CompareTo(selector1(y));
-            return result != 0 ? result : selector2(x).CompareTo(selector2(y));
-        });
-    }
-
-    /// <summary>
     /// 条件を満たす場合のみ追加
     /// </summary>
     public static void AddIfCorrect<T>(this List<T> self, T value, bool condition)
@@ -574,6 +555,114 @@ public static class ListExtend
     }
 
     #endregion
+
+    /// <summary>
+    /// 最小値を持つ要素を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static TSource FindMin<TSource, TResult>(this IEnumerable<TSource> self, Func<TSource, TResult> selector)
+    {
+        return self.First(c => selector(c).Equals(self.Min(selector)));
+    }
+
+    /// <summary>
+    /// 最大値を持つ要素を返す
+    /// </summary>
+    /// <typeparam name=""></typeparam>
+    /// <returns></returns>
+    public static TSource FindMax<TSource, TResult>(this IEnumerable<TSource> self, Func<TSource, TResult> selector)
+    {
+        return self.First(c => selector(c).Equals(self.Max(selector)));
+    }
+
+    // @todo. 以下、このままではbreakは使えない…
+    /// <summary>
+    /// 指定された処理をリストの逆順に行う
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="action"></param>
+    public static void ForeachReverse<T>(this IList<T> self, Action<T> action)
+    {
+        for (int i = self.Count - 1; i >= 0; i--)
+        {
+            action(self[i]);
+        }
+    }
+
+    /// <summary>
+    /// 指定された処理をリストの逆順に行う
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="action"></param>
+    public static void Foreachreverse<T>(this IList<T> self, Action<T, int> action)
+    {
+        for (int i = self.Count - 1; i >= 0; i--)
+        {
+            action(self[i], i);
+        }
+    }
+
+    /// <summary>
+    /// 先頭の要素を削除してから返す
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <returns></returns>
+    public static T Dequeue<T>(this IList<T> self)
+    {
+        var result = self[0];
+        self.RemoveAt(0);
+        return result;
+    }
+
+    /// <summary>
+    /// リスト内の要素をランダムに取得する
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <returns></returns>
+    public static T GetRandom<T>(this IList<T> self)
+    {
+        return self[UnityEngine.Random.Range(0, self.Count)];
+    }
+
+    /// <summary>
+    /// 処理を伴ったループ処理
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="action"></param>
+    public static void CustomForeach<T>(this IEnumerable<T> self, Action<T> action)
+    {
+        foreach (var n in self)
+        {
+            action(n);
+        }
+    }
+
+    /// <summary>
+    /// Select使用時のループ処理
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="action"></param>
+    public static void CustomForeachWithSelect<T>(this IEnumerable<T> self, Action<T, int> action)
+    {
+        foreach (var n in self.Select((value, index) => new { value, index }))
+        {
+            action(n.value, n.index);
+        }
+    }
+
+
+
+
 
 
 
