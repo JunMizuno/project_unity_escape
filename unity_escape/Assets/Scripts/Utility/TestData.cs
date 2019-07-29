@@ -51,6 +51,22 @@ public class TestData : MonoBehaviour
         //StartCoroutine("TestDebugMessage");
 
         //ExecuteAsync();
+
+        /*
+        List<int> list1 = new List<int>() { 0, 1, 2, 3, 4, 3, 2, 1, 0 };
+        List<int> list2 = new List<int>() { 7, 8, 9, 8, 7 };
+        List<int> list3 = new List<int>() { 4, 5, 6, 5, 4 };
+
+        List<int> newList1 = new List<int>() { 0, 1, 2, 3, 4, 5 };
+        newList1.RemoveAtValue(c => c == 3);
+
+        string log = "";
+        foreach (var data in newList1)
+        {
+            log += " " + data;
+        }
+        Debug.Log(log.WithColorTag(Color.cyan));
+        */
     }
 
     private void Update()

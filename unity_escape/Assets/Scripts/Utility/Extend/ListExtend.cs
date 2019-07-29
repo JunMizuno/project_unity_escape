@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public static class ListExtend
 {
@@ -292,6 +293,158 @@ public static class ListExtend
 
         self.RemoveAt(index);
     }
+
+    /// <summary>
+    /// 指定された条件でソートをかける
+    /// 先にselector1でソートした後にselector2で再度ソートをかける
+    /// @todo. 使い方に難があるかもしれないので要チェック
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="array"></param>
+    /// <param name="selector1"></param>
+    /// <param name="selector2"></param>
+    public static void Sort<TSource, TResult>(this TSource[] array, Func<TSource, TResult> selector1, Func<TSource, TResult> selector2) where TResult : IComparable
+    {
+        Array.Sort(array, (x, y) =>
+        {
+            var result = selector1(x).CompareTo(selector1(y));
+            return result != 0 ? result : selector2(x).CompareTo(selector2(y));
+        });
+    }
+
+    /// <summary>
+    /// 条件を満たす場合のみ追加
+    /// </summary>
+    public static void AddIfCorrect<T>(this List<T> self, T value, bool condition)
+    {
+        if (!condition)
+        {
+            return;
+        }
+
+        self.Add(value);
+    }
+
+    /// <summary>
+    /// 指定したパラメータでソートをかける
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="selector"></param>
+    public static void SortWithCondition<TSource, TResult>(this List<TSource> self, Func<TSource, TResult> selector) where TResult : IComparable
+    {
+        self.Sort((x, y) => selector(x).CompareTo(selector(y)));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static T RandomSelect<T>(this List<T> self, params T[] value)
+    {
+        return value[UnityEngine.Random.Range(0, value.Length)];
+    }
+
+    /// <summary>
+    /// 自身の中から指定した範囲の要素を抜き出す
+    /// int型限定
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static IEnumerable<T> PagingOfInteger<T>(this IEnumerable<T> self, int pageNumber, int countPerPage)
+    {
+        return self.Skip(countPerPage * pageNumber).Take(countPerPage);
+    }
+
+    #region Nearest
+
+    /// <summary>
+    /// 自身の要素の中から目的に最も近い値を返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static int Nearest(this IEnumerable<int> self, int target)
+    {
+        int min = self.Min(c => Math.Abs(c - target));
+        return self.First(c => Math.Abs(c - target) == min);
+    }
+
+    /// <summary>
+    /// 自身の要素の中から目的に最も近い値を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public static int Nearest<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        int min = self.Min(c => Math.Abs(selector(c) - target));
+        return selector(self.First(c => Math.Abs(selector(c) - target) == min));
+    }
+
+    /// <summary>
+    /// 自身の要素の中から目的に最も近い値を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public static TSource FindNearest<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        int min = self.Min(c => Math.Abs(selector(c) - target));
+        return self.First(c => Math.Abs(selector(c) - target) == min);
+    }
+
+    #endregion
+
+    #region NearestMoreThan
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも大きい値を返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static int NesrestMoreThan(this IEnumerable<int> self, int target)
+    {
+        int[] list = self.Where(c => target < c).ToArray();
+        int min = list.Min(c => Math.Abs(c - target));
+        return list.First(c => Math.Abs(c - target) == min);
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも大きい値を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static int NearestMoreThan<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => target < selector(c)).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return selector(list.First(c => Math.Abs(selector(c) - target) == min));
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも大きい要素を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static TSource FindNearestMoreThan<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => target < selector(c)).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return list.First(c => Math.Abs(selector(c) - target) == min);
+    }
+
+    #endregion
 
 
 
