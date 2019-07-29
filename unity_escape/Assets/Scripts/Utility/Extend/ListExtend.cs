@@ -446,6 +446,141 @@ public static class ListExtend
 
     #endregion
 
+    #region NearestOrMore
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以上の値を返す
+    /// </summary>
+    /// <returns></returns>
+    public static int NearestOrMore(this IEnumerable<int> self, int target)
+    {
+        var list = self.Where(c => target <= c).ToArray();
+        int min = list.Min(c => Math.Abs(c - target));
+        return list.First(c => Math.Abs(c - target) == min);
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以上の値を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public static int NearestOrMore<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => target <= selector(c)).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return selector(list.First(c => Math.Abs(selector(c) - target) == min));
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以上の値を持つ要素を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public static TSource FindNearestOrMore<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => target <= selector(c)).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return list.First(c => Math.Abs(selector(c) - target) == min);
+    }
+
+    #endregion
+
+    #region NearestOrLess
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以下の値を返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static int NearestOrLess(this IEnumerable<int> self, int target)
+    {
+        var list = self.Where(c => c <= target).ToArray();
+        int min = list.Min(c => Math.Abs(c - target));
+        return list.First(c => Math.Abs(c - target) == min);
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以下の値を返す
+    /// </summary>
+    /// <returns></returns>
+    public static int NearestOrLess<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => selector(c) <= target).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return selector(list.First(c => Math.Abs(selector(c) - target) == min));
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値以下の要素を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static TSource FindNearestOrLess<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => selector(c) <= target).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return list.First(c => Math.Abs(selector(c) - target) == min);
+    }
+
+    #endregion
+
+    #region NearestMoreLess
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも小さい値を返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static int NearestMoreLess(this IEnumerable<int> self, int target)
+    {
+        var list = self.Where(c => c < target).ToArray();
+        int min = list.Min(c => Math.Abs(c - target));
+        return list.First(c => Math.Abs(c - target) == min);
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも小さい値を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static int NearestMoreLess<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => selector(c) < target).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return selector(list.First(c => Math.Abs(selector(c) - target) == min));
+    }
+
+    /// <summary>
+    /// 目的の値に最も近く、目的の値よりも小さい要素を返す
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <param name="selector"></param>
+    /// <returns></returns>
+    public static TSource FindNearestMoreLess<TSource>(this IEnumerable<TSource> self, int target, Func<TSource, int> selector)
+    {
+        var list = self.Where(c => selector(c) < target).ToArray();
+        int min = list.Min(c => Math.Abs(selector(c) - target));
+        return list.First(c => Math.Abs(selector(c) - target) == min);
+    }
+
+    #endregion
+
+
+
+
+
+
+
 
 
 
