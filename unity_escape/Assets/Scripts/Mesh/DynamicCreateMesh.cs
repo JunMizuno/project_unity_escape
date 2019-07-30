@@ -10,9 +10,16 @@ public class DynamicCreateMesh : MonoBehaviour
     [SerializeField]
     private Material unlitColorMaterial;
 
+    private float colorControlValue = 0.5f;
+
     private void Start()
     {
         CreateSimpleTriangleMesh();
+    }
+
+    private void Update()
+    {
+        SetColorControlValue();   
     }
 
     private void CreateSimpleTriangleMesh()
@@ -71,5 +78,17 @@ public class DynamicCreateMesh : MonoBehaviour
 
         var meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material = unlitColorMaterial;
+    }
+
+    private void SetColorControlValue()
+    {
+        colorControlValue += (Time.deltaTime / 4.0f);
+        if (colorControlValue > 1.0f)
+        {
+            colorControlValue = 0.5f;
+        }
+
+        var meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.material.SetFloat("_ColorControlValue", colorControlValue);
     }
 }
