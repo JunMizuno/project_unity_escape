@@ -690,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b45352d77f404a10a7aa85a418d7908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlitColorMaterial: {fileID: 2100000, guid: 4a2fd2fccbece49d1a4f9c58e1445f89, type: 2}
+  unlitColorMaterial: {fileID: 2100000, guid: 02ae04d7b96ed4ea688f09259cd1608d, type: 2}
 --- !u!33 &1729882272
 MeshFilter:
   m_ObjectHideFlags: 0

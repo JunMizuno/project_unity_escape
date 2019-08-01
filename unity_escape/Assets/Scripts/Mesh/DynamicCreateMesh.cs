@@ -19,7 +19,7 @@ public class DynamicCreateMesh : MonoBehaviour
 
     private void Update()
     {
-        SetColorControlValue();   
+        //SetColorControlValue();
     }
 
     private void CreateSimpleTriangleMesh()
@@ -42,6 +42,8 @@ public class DynamicCreateMesh : MonoBehaviour
             2,
         };
 
+        SetMeshUV(ref mesh);
+
         ChangeVertexColor(ref mesh);
 
         // 法線ベクトルの再計算処理
@@ -54,6 +56,21 @@ public class DynamicCreateMesh : MonoBehaviour
         ChangeMaterial();
     }
 
+    private void SetMeshUV(ref Mesh mesh)
+    {
+        if (mesh == null)
+        {
+            return;
+        }
+
+        mesh.uv = new Vector2[]
+        {
+            new Vector2(0.5f, 1.0f),
+            new Vector2(1.0f, 0.0f),
+            new Vector2(0.0f, 0.0f),
+        };
+    }
+
     private void ChangeVertexColor(ref Mesh mesh)
     {
         if (mesh == null)
@@ -63,7 +80,7 @@ public class DynamicCreateMesh : MonoBehaviour
 
         mesh.colors = new Color[]
         {
-            Color.white,
+            Color.yellow,
             Color.red,
             Color.green,
         };
