@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3d83d3c25ed435d890c5197f4109b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 60dcdac33eb4c4c00b7afc8591de5e93, type: 2}
+  material: {fileID: 2100000, guid: ac182f80a4c0c474284f905cf2ca1177, type: 2}
 --- !u!1 &2032046978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1069,10 @@ PrefabInstance:
     - target: {fileID: 100264, guid: 13a16f60da4245c45a865b2136ba272c, type: 3}
       propertyPath: m_Name
       value: UnityChan
+      objectReference: {fileID: 0}
+    - target: {fileID: 100264, guid: 13a16f60da4245c45a865b2136ba272c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400264, guid: 13a16f60da4245c45a865b2136ba272c, type: 3}
       propertyPath: m_LocalPosition.x

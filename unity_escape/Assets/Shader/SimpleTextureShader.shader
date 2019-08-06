@@ -17,6 +17,10 @@ Shader "Unlit/SimpleTextureShader"
 
         Pass
         {
+            // @memo. アルファブレンディングする為には記述が必要
+            Blend SrcAlpha OneMinusSrcAlpha
+            //Blend Off
+
             // @memo. 頂点シェーダーとフラグメントシェーダーの宣言
             CGPROGRAM
             #pragma vertex vert
@@ -67,7 +71,11 @@ Shader "Unlit/SimpleTextureShader"
                 // @memo. 頂点カラーに対してテクスチャのカラーを乗算
                 // @memo. もし乗算が意図したものにならない場合はテクスチャ自体の設定が原因
                 //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
-                fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
+                if (subTexCol.r > 0.5) {
+                    return fixed4(0, 0, 0, 0);
+                }
+
+                fixed4 o = fixed4(i.color, 1) * mainTexCol;
                 return o;
             }
             
