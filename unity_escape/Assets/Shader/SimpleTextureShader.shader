@@ -66,6 +66,7 @@ Shader "Unlit/SimpleTextureShader"
                 fixed4 subTexCol = tex2D(_SubTex, i.uv2);
                 // @memo. 頂点カラーに対してテクスチャのカラーを乗算
                 // @memo. もし乗算が意図したものにならない場合はテクスチャ自体の設定が原因
+                //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
                 fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
                 return o;
             }

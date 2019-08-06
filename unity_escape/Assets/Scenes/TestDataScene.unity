@@ -927,6 +927,7 @@ GameObject:
   - component: {fileID: 2019574266}
   - component: {fileID: 2019574265}
   - component: {fileID: 2019574268}
+  - component: {fileID: 2019574269}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1014,6 +1015,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &2019574269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019574264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3d83d3c25ed435d890c5197f4109b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 60dcdac33eb4c4c00b7afc8591de5e93, type: 2}
 --- !u!1 &2032046978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1408,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TouchManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7332458001794689050, guid: 4271852380133448f86c15457052cf01,
+        type: 3}
+      propertyPath: FieldObject
+      value: 
+      objectReference: {fileID: 545101193}
     - target: {fileID: 7332458002725389835, guid: 4271852380133448f86c15457052cf01,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1449,11 +1468,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7332458001794689050, guid: 4271852380133448f86c15457052cf01,
-        type: 3}
-      propertyPath: FieldObject
-      value: 
-      objectReference: {fileID: 545101193}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4271852380133448f86c15457052cf01, type: 3}
 --- !u!1001 &8641722022319608869
