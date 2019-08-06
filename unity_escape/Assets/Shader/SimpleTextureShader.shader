@@ -71,11 +71,12 @@ Shader "Unlit/SimpleTextureShader"
                 // @memo. 頂点カラーに対してテクスチャのカラーを乗算
                 // @memo. もし乗算が意図したものにならない場合はテクスチャ自体の設定が原因
                 //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
-                if (subTexCol.r > 0.5) {
+
+                if (mainTexCol.r > 0.1) {
                     return fixed4(0, 0, 0, 0);
                 }
 
-                fixed4 o = fixed4(i.color, 1) * mainTexCol;
+                fixed4 o = fixed4(i.color, 1);
                 return o;
             }
             

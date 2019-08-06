@@ -12,6 +12,9 @@ Shader "ImageEffect/TestImageEffect"
 
         Pass
         {
+            // @memo. ImageEffectに対してはブレンドアルファは意味がないかもしれない(期待した効果にはならない)
+            Blend SrcAlpha OneMinusSrcAlpha
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -48,12 +51,10 @@ Shader "ImageEffect/TestImageEffect"
                 //col.rgb = 1 - col.rgb;
 
                 // @memo. 代入するのと掛け合わせるのとでは効果が異なってくる
-                //col.rgb *= fixed3(1, 0, 0);
-                //col.rgb = fixed3(1, 0, 0);
-
-                //col.rgba *= fixed4(0.2, 0.2, 0.2, 0);
-                //col.rgba = fixed4(0.2, 0.2, 0.2, 0);
-
+                //col.rgba *= fixed4(1, 0, 0, 0.1);
+                col.rgb = fixed3(1, 0, 0);
+                col.a = 0.1;
+                
                 return col;
             }
 

@@ -15,8 +15,8 @@ Shader "ImageEffect/SampleImageEffect"
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
-            //Blend Off
+            //Blend SrcAlpha OneMinusSrcAlpha
+            Blend Off
 
             CGPROGRAM
             #pragma vertex vert
