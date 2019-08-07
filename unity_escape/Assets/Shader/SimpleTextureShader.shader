@@ -59,7 +59,9 @@ Shader "Unlit/SimpleTextureShader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv1 = TRANSFORM_TEX(v.uv1, _MainTex);
+
                 o.uv2 = TRANSFORM_TEX(v.uv2, _SubTex);
+
                 o.color = v.color;
                 return o;
             }
@@ -72,11 +74,11 @@ Shader "Unlit/SimpleTextureShader"
                 // @memo. もし乗算が意図したものにならない場合はテクスチャ自体の設定が原因
                 //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
 
-                if (mainTexCol.r > 0.1) {
+                if (subTexCol.r > 0.1) {
                     return fixed4(0, 0, 0, 0);
                 }
-
-                fixed4 o = fixed4(i.color, 1);
+                               
+                fixed4 o = fixed4(i.color, 1) * mainTexCol;
                 return o;
             }
             

@@ -29,7 +29,7 @@ public class DynamicCreateMesh : MonoBehaviour
         // 頂点座標
         mesh.vertices = new Vector3[]
         {
-            new Vector3(0.0f, 2.0f),
+            new Vector3(-1.0f, 2.0f),
             new Vector3(1.0f, 0.0f),
             new Vector3(-1.0f, 0.0f),
         };
@@ -65,7 +65,7 @@ public class DynamicCreateMesh : MonoBehaviour
 
         mesh.uv = new Vector2[]
         {
-            new Vector2(0.5f, 1.0f),
+            new Vector2(0.0f, 1.0f),
             new Vector2(1.0f, 0.0f),
             new Vector2(0.0f, 0.0f),
         };

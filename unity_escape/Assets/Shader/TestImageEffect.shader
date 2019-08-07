@@ -52,8 +52,8 @@ Shader "ImageEffect/TestImageEffect"
 
                 // @memo. 代入するのと掛け合わせるのとでは効果が異なってくる
                 //col.rgba *= fixed4(1, 0, 0, 0.1);
-                col.rgb = fixed3(1, 0, 0);
-                col.a = 0.1;
+                //col.rgb = fixed3(1, 0, 0);
+                //col.a = 0.1;
                 
                 return col;
             }
