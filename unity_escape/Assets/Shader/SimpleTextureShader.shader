@@ -59,8 +59,13 @@ Shader "Unlit/SimpleTextureShader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv1 = TRANSFORM_TEX(v.uv1, _MainTex);
-
                 o.uv2 = TRANSFORM_TEX(v.uv2, _SubTex);
+                
+                // @memo. _MainTexの描画をスクロールする処理
+                //o.uv1 = TRANSFORM_TEX(float2(v.uv1.x + clamp(frac(_Time.y), 0.0, 1.0), v.uv1.y), _MainTex);
+                // @memo. _SubTexを利用して描画範囲をスクロールする処理
+                // @memo. フラグメントのマスク処理と併用することで効果が出る
+                //o.uv2 = TRANSFORM_TEX(float2(v.uv2.x + clamp(frac(_Time.y / 4), 0.0, 1.0), v.uv2.y), _SubTex);
 
                 o.color = v.color;
                 return o;
@@ -74,6 +79,7 @@ Shader "Unlit/SimpleTextureShader"
                 // @memo. もし乗算が意図したものにならない場合はテクスチャ自体の設定が原因
                 //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
 
+                // @memo. _SubTexを利用して描画にマスクを掛ける処理
                 if (subTexCol.r > 0.1) {
                     return fixed4(0, 0, 0, 0);
                 }
