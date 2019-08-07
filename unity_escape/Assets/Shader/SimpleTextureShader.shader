@@ -39,6 +39,7 @@ Shader "Unlit/SimpleTextureShader"
             struct appdata
             {
                 float4 vertex : POSITION;
+                float3 normal : NORMAL;
                 fixed3 color : COLOR0;
                 // @memo. テクスチャのUV座標(複数テクスチャにより末尾が連番になることもある)
                 float2 uv1 : TEXCOORD0;
@@ -61,6 +62,15 @@ Shader "Unlit/SimpleTextureShader"
                 o.uv1 = TRANSFORM_TEX(v.uv1, _MainTex);
                 o.uv2 = TRANSFORM_TEX(v.uv2, _SubTex);
                 
+                // @memo. 頂点をコントロール
+                /*
+                float x = v.vertex.x + frac(_Time.y) * v.normal.x;
+                float y = v.vertex.y + frac(_Time.y) * v.normal.y;
+                float z = v.vertex.z + frac(_Time.y) * v.normal.z;
+                float4 vertexPos = float4(float3(x, y, z), v.vertex.w);
+                o.vertex = UnityObjectToClipPos(vertexPos);
+                */
+
                 // @memo. _MainTexの描画をスクロールする処理
                 //o.uv1 = TRANSFORM_TEX(float2(v.uv1.x + clamp(frac(_Time.y), 0.0, 1.0), v.uv1.y), _MainTex);
                 // @memo. _SubTexを利用して描画範囲をスクロールする処理
@@ -80,12 +90,10 @@ Shader "Unlit/SimpleTextureShader"
                 //fixed4 o = fixed4(i.color, 1) * mainTexCol * subTexCol;
 
                 // @memo. _SubTexを利用して描画にマスクを掛ける処理
-                if (subTexCol.r > 0.1) {
-                    return fixed4(0, 0, 0, 0);
-                }
-                               
-                fixed4 o = fixed4(i.color, 1) * mainTexCol;
-                return o;
+                return subTexCol.r > 0.1 ? fixed4(0, 0, 0, 0) : fixed4(i.color, 1) * mainTexCol;
+                
+                //return fixed4(i.color, 1) * mainTexCol;
+                //return fixed4(i.color, 1) * subTexCol;
             }
             
             ENDCG
