@@ -83,6 +83,10 @@ Shader "Unlit/SimpleTextureShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // @memo. 引数にfloat4 sp:WPOSを持つこともできる(セマンティック注意)
+                // @memo. _ScreenParams.xyで割ることで、スクリーン左下(0, 0)、右上(1, 1)になる
+                //float2 convertPos = i.vertex.xy / _ScreenParams.xy;
+
                 fixed4 mainTexCol = tex2D(_MainTex, i.uv1);
                 fixed4 subTexCol = tex2D(_SubTex, i.uv2);
                 // @memo. 頂点カラーに対してテクスチャのカラーを乗算
