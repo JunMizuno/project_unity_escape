@@ -11,7 +11,7 @@ Shader "Unlit/BasicBumpMap"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
+        LOD 200
 
         Pass
         {
@@ -64,7 +64,8 @@ Shader "Unlit/BasicBumpMap"
                 float3 tangent = normalize(v.tangent);
                 float3 binormal = cross(normal, tangent);
 
-                o.light = mul(mul(unity_WorldToObject, _WorldSpaceLightPos0), InvTangentMatrix(tangent, binormal, normal));
+                float3 localLight = mul(unity_WorldToObject, _WorldSpaceLightPos0);
+                o.light = mul(localLight, InvTangentMatrix(tangent, binormal, normal));
 
                 return o;
             }
@@ -80,4 +81,8 @@ Shader "Unlit/BasicBumpMap"
             ENDCG
         }
     }
+
+    // @memo. これが無いと影が出ない、任意で影を出す場合はPassで追加記述が必要
+    // @memo. 追加のPassではSHADOW_CASTER_FRAGMENTを使用する模様
+    FallBack "Diffuse"
 }
