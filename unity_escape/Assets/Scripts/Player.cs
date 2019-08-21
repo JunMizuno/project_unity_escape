@@ -5,7 +5,8 @@ using DG.Tweening;
 
 public class Player : ObjectBase
 {
-    private readonly float MOVING_DISTANCE_PER_SECOND = 0.2f;
+    // 数値を増やすとスピードダウン
+    private readonly float MOVING_DISTANCE_PER_SECOND = 0.1f;
     private readonly float MOVING_MIN_TIME = 2.0f;
     private readonly float MOVING_MAX_TIME = 8.0f;
     private readonly float ADJUST_ANGLE_Y = -90.0f;
@@ -97,7 +98,6 @@ public class Player : ObjectBase
 
             touchWorldPosition.y = this.transform.position.y;
             MovePlayer(touchWorldPosition, time);
-            Debug.Log(string.Format("タッチ座標:{0}", touchWorldPosition));
         };
     }
 
