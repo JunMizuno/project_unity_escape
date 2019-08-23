@@ -14,6 +14,9 @@ public class Player : ObjectBase
 
     private Sequence sequence;
 
+    private bool isTurned;
+    private IEnumerator rotateCoroutine;
+
     private IEnumerator moveCoroutine;
 
     protected override void Start()
@@ -42,7 +45,7 @@ public class Player : ObjectBase
         }
 
         // @todo. カメラモードによって切り替えられるようにする必要あり
-        if (true)
+        if (false)
         {
             AutoMoving(touchArea);
         }
@@ -71,6 +74,9 @@ public class Player : ObjectBase
 
             float distance = (touchWorldPosition - this.transform.position).sqrMagnitude;
             float time = Mathf.Clamp((distance * MOVING_DISTANCE_PER_SECOND), MOVING_MIN_TIME, MOVING_MAX_TIME);
+
+
+
 
             float touchWorldX = touchWorldPosition.x;
             float playerX = this.transform.position.x;
@@ -107,12 +113,73 @@ public class Player : ObjectBase
     /// <param name="touchManager"></param>
     private void ManualMoving(TouchManager touchManager)
     {
-        touchManager.TouchUpAction = (x) =>
+        touchManager.TouchHoldAction = () =>
         {
             sequence.Kill();
 
             // @todo. 移動処理
+            var currentPos = this.transform.position;
+            var reachedPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2.0f);
+
+            float distance = (reachedPos - currentPos).sqrMagnitude;
+            float time = Mathf.Clamp((distance * MOVING_DISTANCE_PER_SECOND), MOVING_MIN_TIME, MOVING_MAX_TIME);
+
+            if (!isTurned)
+            {
+                RotatePlayer(TURN_AROUND_TIME);
+            }
+
+            MovePlayer(reachedPos, time);
         };
+
+        touchManager.StopHoldAction = () =>
+        {
+            if (rotateCoroutine != null)
+            {
+                StopCoroutine(rotateCoroutine);
+            }
+            rotateCoroutine = null;
+
+            if (moveCoroutine != null)
+            {
+                StopCoroutine(moveCoroutine);
+            }
+            moveCoroutine = null;
+        };
+    }
+
+    /// <summary>
+    /// 回転処理
+    /// </summary>
+    private void RotatePlayer(float turnAroundTime)
+    {
+        if (rotateCoroutine != null)
+        {
+            StopCoroutine(rotateCoroutine);
+        }
+        rotateCoroutine = null;
+
+        rotateCoroutine = RotateToAngle(turnAroundTime);
+        StartCoroutine(rotateCoroutine);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="turnAroundTime"></param>
+    /// <returns></returns>
+    private IEnumerator RotateToAngle(float turnAroundTime)
+    {
+
+
+
+
+
+
+
+        isTurned = false;
+
+        yield break;
     }
 
     /// <summary>

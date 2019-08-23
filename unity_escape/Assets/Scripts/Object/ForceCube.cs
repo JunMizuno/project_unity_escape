@@ -6,7 +6,7 @@ public class ForceCube : ForceObjectBase
 {
     private void Start()
     {
-        AddForce(new Vector3(100.0f, 400.0f, 0.0f));
+        AddForce(new Vector3(1.0f, 10.0f, 0.0f), ForceMode.VelocityChange);
     }
 
     protected override void OnCollisionEnter(Collision collision)

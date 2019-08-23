@@ -27,10 +27,15 @@ public class TouchManager : TouchActionBase
     {
         set { touchDownAction = value; }
     }
-    private Action<PointerEventData> touchHoldAction;
-    public Action<PointerEventData> TouchHoldAction
+    private Action touchHoldAction;
+    public Action TouchHoldAction
     {
         set { touchHoldAction = value; }
+    }
+    public Action stopHoldAction;
+    public Action StopHoldAction
+    {
+        set { stopHoldAction = value; }
     }
     private Action<PointerEventData> touchUpAction;
     public Action<PointerEventData> TouchUpAction
@@ -43,6 +48,10 @@ public class TouchManager : TouchActionBase
 
     private Vector2 touchPositionDelta;
     private Vector2 touchActionPosition;
+
+    private bool isTouched;
+    private readonly float AVAIRABLE_HOLD_TIME = 1.0f;
+    private float currentHoldTime;
 
     private readonly float PERSPECTIVE_Z_POINT = 5.0f;
     //private readonly float ORTHOGRAPHIC_Z_POINT = 0.0f;
@@ -61,19 +70,40 @@ public class TouchManager : TouchActionBase
 
     public override void OnPointerDown(PointerEventData pointerEventData)
     {
+        isTouched = true;
         base.OnPointerDown(pointerEventData);
         ExecuteTouchDownAction(pointerEventData);
     }
 
     public override void OnPointerUp(PointerEventData pointerEventData)
     {
+        isTouched = false;
+        currentHoldTime = 0.0f;
         base.OnPointerUp(pointerEventData);
         ExecuteTouchUpAction(pointerEventData);
+        ExecuteStopHoldAction();
     }
 
     public override void OnDrag(PointerEventData pointerEventData)
     {
+        isTouched = false;
+        currentHoldTime = 0.0f;
         base.OnDrag(pointerEventData);
+        ExecuteStopHoldAction();
+    }
+
+    public override void OnBeginDrag(PointerEventData pointerEventData)
+    {
+        isTouched = true;
+        base.OnBeginDrag(pointerEventData);
+    }
+
+    public override void OnEndDrag(PointerEventData pointerEventData)
+    {
+        isTouched = false;
+        currentHoldTime = 0.0f;
+        base.OnEndDrag(pointerEventData);
+        ExecuteStopHoldAction();
     }
 
     private void ClearPointerEnterAction()
@@ -108,6 +138,8 @@ public class TouchManager : TouchActionBase
         ClearTouchDownAction();
         ClearTouchHoldAction();
         ClearTouchUpAction();
+        isTouched = false;
+        currentHoldTime = 0.0f;
     }
 
     public void ExecutePointerEnterAction(PointerEventData pointerEventData)
@@ -129,9 +161,14 @@ public class TouchManager : TouchActionBase
         this.touchDownAction.NullSafeCall(pointerEventData);
     }
 
-    public void ExecuteTouchHoldAction(PointerEventData pointerEventData)
+    public void ExecuteTouchHoldAction()
     {
-        this.touchHoldAction.NullSafeCall(pointerEventData);
+        this.touchHoldAction.NullSafeCall();
+    }
+
+    public void ExecuteStopHoldAction()
+    {
+        this.stopHoldAction.NullSafeCall();
     }
 
     public void ExecuteTouchUpAction(PointerEventData pointerEventData)
@@ -141,6 +178,21 @@ public class TouchManager : TouchActionBase
         this.touchActionPosition = pointerEventData.position;
 
         this.touchUpAction.NullSafeCall(pointerEventData);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Update()
+    {
+        if (isTouched)
+        {
+            currentHoldTime += Time.deltaTime;
+            if (currentHoldTime >= AVAIRABLE_HOLD_TIME)
+            {
+                ExecuteTouchHoldAction();
+            }
+        }
     }
 
     /// <summary>

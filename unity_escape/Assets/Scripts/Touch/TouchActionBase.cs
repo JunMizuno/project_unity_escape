@@ -20,7 +20,11 @@ public abstract class TouchActionBase :
     IPointerClickHandler,
     IPointerEnterHandler,
     IPointerExitHandler,
-    IScrollHandler
+    IScrollHandler,
+    IDropHandler,
+    IDeselectHandler,
+    ISelectHandler,
+    IUpdateSelectedHandler
 {
     /// <summary>
     /// ドラッグ開始時
@@ -114,6 +118,41 @@ public abstract class TouchActionBase :
     /// </summary>
     /// <param name="pointerEventData"></param>
     public virtual void OnScroll(PointerEventData pointerEventData)
+    {
+
+    }
+
+    /// <summary>
+    /// @memo. 現状ではどの操作で作用するか不明
+    /// </summary>
+    public virtual void OnDrop(PointerEventData pointerEventData)
+    {
+
+    }
+
+    /// <summary>
+    /// @memo. 現状ではどの操作で作用するか不明
+    /// </summary>
+    /// <param name="eventData"></param>
+    public virtual void OnDeselect(BaseEventData eventData)
+    {
+
+    }
+
+    /// <summary>
+    /// @memo. 現状ではどの操作で作用するか不明
+    /// </summary>
+    /// <param name="eventData"></param>
+    public virtual void OnSelect(BaseEventData eventData)
+    {
+
+    }
+
+    /// <summary>
+    /// @memo. 現状ではどの操作で作用するか不明
+    /// </summary>
+    /// <param name="eventData"></param>
+    public virtual void OnUpdateSelected(BaseEventData eventData)
     {
 
     }
