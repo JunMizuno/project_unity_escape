@@ -50,7 +50,7 @@ public class CameraManager : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    void Update()
+    void FixedUpdate()
     {
         RefreshCameraPos();
     }
