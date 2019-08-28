@@ -82,8 +82,8 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        //RefreshCameraPosByGlobal();
-        RefreshCameraPosByFollowing();
+        RefreshCameraPosByGlobal();
+        //RefreshCameraPosByFollowing();
     }
 
     private void SetPosition(Vector3 position)
@@ -106,6 +106,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// カメラの向く座標を指定
+    /// </summary>
+    /// <param name="targetTrans"></param>
     private void SetTargetTransform(Transform targetTrans)
     {
         if (MainCamera != null)
@@ -114,6 +118,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// カメラのターゲットを設定
+    /// </summary>
+    /// <param name="targetTrans"></param>
     public void SetLookTarget(Transform targetTrans)
     {
         SetTargetTransform(targetTrans);

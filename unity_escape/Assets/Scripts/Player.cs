@@ -45,7 +45,7 @@ public class Player : ObjectBase
         }
 
         // @todo. カメラモードによって切り替えられるようにする必要あり
-        if (false)
+        if (true)
         {
             AutoMoving(touchArea);
         }
@@ -63,44 +63,29 @@ public class Player : ObjectBase
     {
         touchManager.TouchUpAction = (x) =>
         {
-            sequence.Kill();
-
             // @todo. フィールドにマーカーを追加
 
             var touchWorldPosition = touchManager.GetCurrentTouchActionPositionInWorld();
 
-            // @memo. プレイヤーの高さは変更しないため固定値を設定
-            touchWorldPosition.y = this.gameObject.transform.position.y;
+            // @todo. 物理演算で重力をかけた場合、常に当たりが発生しているので調整の必要あり
+            touchWorldPosition.y = 0.0f;
 
             float distance = (touchWorldPosition - this.transform.position).sqrMagnitude;
             float time = Mathf.Clamp((distance * MOVING_DISTANCE_PER_SECOND), MOVING_MIN_TIME, MOVING_MAX_TIME);
 
+            if (!isTurned)
+            {
+                float dx = touchWorldPosition.x - this.transform.position.x;
+                float dz = touchWorldPosition.z - this.transform.position.z;
+                float rad = Mathf.Atan2(dz, dx);
+                float angle = rad * Mathf.Rad2Deg;
 
+                // @memo. プロジェクトではキャラがZ軸に対して正面を向いている状態がゼロ度となっているため調整
+                float newAngleY = (angle + ADJUST_ANGLE_Y) * -1.0f;
+                Vector3 newAngles = new Vector3(this.transform.localEulerAngles.x, newAngleY, this.transform.localEulerAngles.z);
 
-
-            float touchWorldX = touchWorldPosition.x;
-            float playerX = this.transform.position.x;
-            float touchWorldZ = touchWorldPosition.z;
-            float playerZ = this.transform.position.z;
-            float dx = touchWorldX - playerX;
-            float dz = touchWorldZ - playerZ;
-
-            float rad = Mathf.Atan2(dz, dx);
-            float angle = rad * Mathf.Rad2Deg;
-
-            // @memo. プロジェクトではキャラがZ軸に対して正面を向いている状態がゼロ度となっているため調整
-            float newAngleY = (angle + ADJUST_ANGLE_Y) * -1.0f;
-            Vector3 newAngles = new Vector3(this.transform.localEulerAngles.x, newAngleY, this.transform.localEulerAngles.z);
-
-            sequence = DOTween.Sequence();
-            sequence.Append(this.transform.DORotate(newAngles, TURN_AROUND_TIME)
-                .SetEase(Ease.InSine)
-                .OnComplete(() =>
-                {
-                    StopMovingAction();
-                })
-            );
-            sequence.Play();
+                RotatePlayer(newAngles, TURN_AROUND_TIME);
+            }
 
             touchWorldPosition.y = this.transform.position.y;
             MovePlayer(touchWorldPosition, time);
@@ -115,8 +100,6 @@ public class Player : ObjectBase
     {
         touchManager.TouchHoldAction = () =>
         {
-            sequence.Kill();
-
             // @todo. 移動処理
             var currentPos = this.transform.position;
             var reachedPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 2.0f);
@@ -126,7 +109,16 @@ public class Player : ObjectBase
 
             if (!isTurned)
             {
-                RotatePlayer(TURN_AROUND_TIME);
+                float dx = reachedPos.x - currentPos.x;
+                float dz = reachedPos.z - currentPos.z;
+                float rad = Mathf.Atan2(dz, dx);
+                float angle = rad * Mathf.Rad2Deg;
+
+                // @memo. プロジェクトではキャラがZ軸に対して正面を向いている状態がゼロ度となっているため調整
+                float newAngleY = (angle + ADJUST_ANGLE_Y) * -1.0f;
+                Vector3 newAngles = new Vector3(this.transform.localEulerAngles.x, newAngleY, this.transform.localEulerAngles.z);
+
+                RotatePlayer(newAngles, TURN_AROUND_TIME);
             }
 
             MovePlayer(reachedPos, time);
@@ -151,7 +143,7 @@ public class Player : ObjectBase
     /// <summary>
     /// 回転処理
     /// </summary>
-    private void RotatePlayer(float turnAroundTime)
+    private void RotatePlayer(Vector3 angles, float turnAroundTime)
     {
         if (rotateCoroutine != null)
         {
@@ -159,7 +151,7 @@ public class Player : ObjectBase
         }
         rotateCoroutine = null;
 
-        rotateCoroutine = RotateToAngle(turnAroundTime);
+        rotateCoroutine = RotateToAngle(angles, turnAroundTime);
         StartCoroutine(rotateCoroutine);
     }
 
@@ -168,14 +160,26 @@ public class Player : ObjectBase
     /// </summary>
     /// <param name="turnAroundTime"></param>
     /// <returns></returns>
-    private IEnumerator RotateToAngle(float turnAroundTime)
+    private IEnumerator RotateToAngle(Vector3 angles, float turnAroundTime)
     {
+        isTurned = true;
 
+        float totalTime = 0.0f;
+        Vector3 anglesDiff = angles - this.transform.localEulerAngles;
 
+        while (totalTime < turnAroundTime)
+        {
+            totalTime += Time.deltaTime;
 
+            float addAngleValueX = (anglesDiff.x / turnAroundTime) * Time.deltaTime;
+            float addAngleValueY = (anglesDiff.y / turnAroundTime) * Time.deltaTime;
+            float addAngleValueZ = (anglesDiff.z / turnAroundTime) * Time.deltaTime;
 
+            Vector3 addAngle = new Vector3(addAngleValueX, addAngleValueY, addAngleValueZ);
+            this.transform.eulerAngles = this.transform.eulerAngles + addAngle;
 
-
+            yield return null;
+        }
 
         isTurned = false;
 
