@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MessageLogger : MonoBehaviour
 {
-    static MessageLogger instance;
+    public static MessageLogger Instance;
 
     readonly int rowCount = 5;
     readonly float displaySeconds = 5.0f;
@@ -21,26 +21,26 @@ public class MessageLogger : MonoBehaviour
     {
         get
         {
-            return instance.rowObjects[0].activeSelf;
+            return Instance.rowObjects[0].activeSelf;
         }
         set
         {
-            for (int i = 0; i < instance.rowObjects.Length; i++)
+            for (int i = 0; i < Instance.rowObjects.Length; i++)
             {
-                instance.rowObjects[i].SetActive(value);
+                Instance.rowObjects[i].SetActive(value);
             }
         }
     }
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;
         }
 
-        instance = this;
+        Instance = this;
         this.rowObjects = new GameObject[this.rowCount];
         this.textLabels = new Text[this.rowCount];
         this.layoutGroups = new HorizontalLayoutGroup[this.rowCount];
@@ -59,20 +59,20 @@ public class MessageLogger : MonoBehaviour
 
     public static void PushText(string text)
     {
-        if (instance == null)
+        if (Instance == null)
         {
             Debug.LogWarning("MessageLogger PushText:instance is null");
             return;
         }
 
-        if (instance.textSlotList.Count >= instance.rowCount)
+        if (Instance.textSlotList.Count >= Instance.rowCount)
         {
-            instance.PopTextImmediate();
+            Instance.PopTextImmediate();
         }
 
-        instance.textSlotList.Add(text);
-        instance.coroutineSlotList.Add(instance.StartCoroutine(instance.DelayPopText()));
-        instance.ApplyTextString();
+        Instance.textSlotList.Add(text);
+        Instance.coroutineSlotList.Add(Instance.StartCoroutine(Instance.DelayPopText()));
+        Instance.ApplyTextString();
     }
 
     IEnumerator DelayPopText()

@@ -14,11 +14,25 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     public GameObject TargetObject;
 
-    private CameraManager instance;
-    public CameraManager Instance {
+    private static CameraManager instance;
+    public static CameraManager Instance {
         get
         {
-            return this.instance;
+            return instance;
+        }
+    }
+
+    private CameraMode.ViewMode currentViewMode = CameraMode.ViewMode.Global;
+    public CameraMode.ViewMode CurrentViewMode
+    {
+        get
+        {
+            return currentViewMode;
+        }
+
+        set
+        {
+            currentViewMode = value;
         }
     }
 
@@ -82,8 +96,14 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        RefreshCameraPosByGlobal();
-        //RefreshCameraPosByFollowing();
+        if (currentViewMode == CameraMode.ViewMode.Global)
+        {
+            RefreshCameraPosByGlobal();
+        }
+        else if (currentViewMode == CameraMode.ViewMode.Following)
+        {
+            RefreshCameraPosByFollowing();
+        }
     }
 
     private void SetPosition(Vector3 position)
