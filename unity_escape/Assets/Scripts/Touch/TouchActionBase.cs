@@ -97,6 +97,8 @@ public abstract class TouchActionBase :
 
     /// <summary>
     /// マウスポインタの当たりが発生した瞬間
+    /// @memo. 画面内にポインタ判定がある場合に反応
+    /// @memo. ただし他のEventTriggerがある場合はそちらが優先される模様
     /// </summary>
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerEnter(PointerEventData pointerEventData)
@@ -106,6 +108,7 @@ public abstract class TouchActionBase :
 
     /// <summary>
     /// マウスポインタの当たりが外れた瞬間
+    /// @memo. 画面外にポインタ判定が移動した場合に反応
     /// </summary>
     /// <param name="pointerEventData"></param>
     public virtual void OnPointerExit(PointerEventData pointerEventData)

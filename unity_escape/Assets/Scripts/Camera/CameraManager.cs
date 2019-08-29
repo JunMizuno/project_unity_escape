@@ -51,7 +51,7 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 開始時
     /// </summary>
     void Start()
     {
@@ -62,7 +62,7 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 演算処理後の最終更新
     /// </summary>
     void FixedUpdate()
     {
@@ -84,6 +84,9 @@ public class CameraManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// カメラ座標を更新
+    /// </summary>
     private void RefreshCameraPos()
     {
         if (MainCamera == null)
@@ -106,6 +109,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// カメラの座標を設定
+    /// </summary>
+    /// <param name="position"></param>
     private void SetPosition(Vector3 position)
     {
         if (MainCamera != null)
@@ -114,6 +121,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// カメラの角度を設定
+    /// </summary>
+    /// <param name="quaternion"></param>
     private void SetRotation(Quaternion quaternion)
     {
         //Vector3 axis = new Vector3(0f, 0f, 1f); // 回転軸
