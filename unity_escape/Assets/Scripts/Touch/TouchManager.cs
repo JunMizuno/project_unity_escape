@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 /// <summary>
 /// TouchAreaと合わせてアタッチして使用する仕様
+/// ゲームシーンに対してのマネージャー、UIには個別で対応すること
 /// </summary>
 public class TouchManager : TouchActionBase
 {
