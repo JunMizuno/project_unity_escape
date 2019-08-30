@@ -6,55 +6,37 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class MoveController : MonoBehaviour
+public class MoveController : TouchUIBase
 {
-    [SerializeField]
-    public Image touchArea; 
-
-    private bool isInSight;
-    public bool IsInSight
+    private new void Start()
     {
-        get
-        {
-            return isInSight;
-        }
-    }
+        base.Start();
 
-    private void Start()
-    {
         SetTouchAnction();
     }
 
-    public void OnPointerEnter()
+    public new void OnPointerDown()
     {
-        isInSight = true;
+        base.OnPointerDown();
     }
 
-    public void OnPointerExit()
+    public new void OnPointerMove()
     {
-        isInSight = false;
+        base.OnPointerMove();
     }
 
-    public void OnPointerDown()
+    public new void OnPointerUp()
     {
-        var pos = Input.mousePosition;
-    }
-
-    public void OnPointerMove()
-    {
-        var pos = Input.mousePosition;
-    }
-
-    public void OnPointerUp()
-    {
-        var pos = Input.mousePosition;
+        base.OnPointerUp();
     }
 
     /// <summary>
     /// タッチ時のアクション設定
     /// </summary>
-    private void SetTouchAnction()
+    protected void SetTouchAnction()
     {
+        base.SetTouchAction();
+
         SetPointerDownCallback((baseEventData) =>
         {
 
@@ -69,38 +51,5 @@ public class MoveController : MonoBehaviour
         {
 
         });
-    }
-
-    /// <summary>
-    /// コールバックの設定
-    /// </summary>
-    /// <param name="callback"></param>
-    private void SetPointerDownCallback(UnityAction<BaseEventData> callback)
-    {
-        SetCallback(callback, EventTriggerType.PointerDown);
-    }
-
-    private void SetPointerMoveCallback(UnityAction<BaseEventData> callback)
-    {
-        SetCallback(callback, EventTriggerType.Drag);
-    }
-
-    private void SetPointerUpCallback(UnityAction<BaseEventData> callback)
-    {
-        SetCallback(callback, EventTriggerType.PointerUp);
-    }
-
-    private void SetCallback(UnityAction<BaseEventData> callback, EventTriggerType triggerType)
-    {
-        if (touchArea == null)
-        {
-            return;
-        }
-
-        EventTrigger trigger = touchArea.GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = triggerType;
-        entry.callback.AddListener(callback);
-        trigger.triggers.Add(entry);
     }
 }
