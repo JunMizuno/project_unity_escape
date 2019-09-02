@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2dad0e4274d1408d85f22f83f4dbf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchArea: {fileID: 0}
+  touchArea: {fileID: 1986019245}
 --- !u!1 &1385391410
 GameObject:
   m_ObjectHideFlags: 0

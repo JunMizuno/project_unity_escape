@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public abstract class TouchUIBase : MonoBehaviour
 {
     // @memo. タッチ操作の範囲を表すImageを設定すること
+    // @memo. このImageがnullの場合は動作しない
     [SerializeField]
     public Image touchArea;
 
@@ -51,10 +52,6 @@ public abstract class TouchUIBase : MonoBehaviour
     virtual public void OnPointerMove()
     {
         pointerMovingPos = Input.mousePosition;
-
-        Debug.Log(string.Format("GetMoveDistance():{0}", GetMoveDistance()).WithColorTag(Color.cyan));
-
-        GetMoveDirection();
     }
 
     virtual public void OnPointerUp()
