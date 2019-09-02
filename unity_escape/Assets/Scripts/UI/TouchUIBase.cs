@@ -133,42 +133,42 @@ public abstract class TouchUIBase : MonoBehaviour
 
         // @todo. 判定値、再考の必要あり
         // 右
-        if (diff.x > 0.0f && diff.y < MOVE_MATGIN && diff.z < MOVE_MATGIN)
+        if (diff.x > 0.0f && diff.y < MOVE_MARGIN && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.Right;
         }
         // 左
-        else if (diff.x < 0.0f && diff.y < MOVE_MATGIN && diff.z < MOVE_MATGIN)
+        else if (diff.x < 0.0f && diff.y < MOVE_MARGIN && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.Left;
         }
         // 上
-        else if (diff.y > 0.0f && diff.x < MOVE_MATGIN && diff.z < MOVE_MATGIN)
+        else if (diff.y > 0.0f && diff.x < MOVE_MARGIN && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.TopCenter;
         }
         // 下
-        else if (diff.y < 0.0f && diff.x < MOVE_MATGIN && diff.z < MOVE_MATGIN)
+        else if (diff.y < 0.0f && diff.x < MOVE_MARGIN && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.BottomCenter;
         }
         // 右上
-        else if (diff.x > 0.0f && diff.y > 0.0f && diff.z < MOVE_MATGIN)
+        else if (diff.x > 0.0f && diff.y > 0.0f && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.TopRight;
         }
         // 右下
-        else if (diff.x > 0.0f && diff.y < 0.0f && diff.z < MOVE_MATGIN)
+        else if (diff.x > 0.0f && diff.y < 0.0f && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.BottomRight;
         }
         // 左上
-        else if (diff.x < 0.0f && diff.y > 0.0f && diff.z < MOVE_MATGIN)
+        else if (diff.x < 0.0f && diff.y > 0.0f && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.TopLeft;
         }
         // 左下
-        else if (diff.x < 0.0f && diff.y < 0.0f && diff.z < MOVE_MATGIN)
+        else if (diff.x < 0.0f && diff.y < 0.0f && diff.z < MOVE_MARGIN)
         {
             retValue = ControllerDirection.MoveDirection.BottomLeft;
         }
