@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// @memo. メインプレイヤーとなるオブジェクトにアタッチ必須
+/// </summary>
 public class MainPlayer : PlayerBase
 {
     // 数値を増やすとスピードダウン

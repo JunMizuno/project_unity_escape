@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 
 /// <summary>
-/// カメラマネージャー
+/// カメラマネージャーが
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
@@ -96,6 +96,7 @@ public class CameraManager : MonoBehaviour
 
         if (TargetObject == null)
         {
+            // @todo. ターゲットオブジェクトが無い場合の設定が必要
             return;
         }
 
