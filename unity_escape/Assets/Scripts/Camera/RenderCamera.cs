@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// レンダーカメラ
+/// ミニマップなどに使用するサブカメラ
+/// </summary>
 public class RenderCamera : MonoBehaviour
 {
     // @todo. 仮でメインカメラと座標を同期させるため

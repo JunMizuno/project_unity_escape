@@ -22,9 +22,9 @@ public abstract class TouchUIBase : MonoBehaviour
         }
     }
 
-    private Vector3 pointerDownPos;
-    private Vector3 pointerMovingPos;
-    private Vector3 pointerUpPos;
+    protected Vector3 pointerDownPos;
+    protected Vector3 pointerMovingPos;
+    protected Vector3 pointerUpPos;
 
     private readonly float MOVE_MARGIN = 3.0f;
 
